@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dr. Andrade Patient Guide</title>
+<meta name="description" content="Split-dose bowel prep and procedure-day guidance for patients of Christian M. Andrade, MD, GastroMED Miami.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: single mobile-first column (patients arrive from a phone QR scan); sticky language bar; sections as a checklist the patient scrolls through in time order. */
+:root{
+  --bg:#f5f8f8; --surface:#ffffff; --ink:#0f2a33; --muted:#4e6770; --line:#d6e1e3;
+  --accent:#0b6e75; --accent-ink:#ffffff; --accent-soft:#e0f0f0;
+  --warn:#9a4a07; --warn-soft:#fdf1e3; --stop:#a1262b; --stop-soft:#fbe9ea;
+  --display:"Literata", Georgia, "Times New Roman", serif;
+  --body:"Figtree", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1a1f; --surface:#13252b; --ink:#e4eef0; --muted:#9ab1b8; --line:#26404a;
+  --accent:#5cc3c8; --accent-ink:#06262a; --accent-soft:#163a40;
+  --warn:#f0b36d; --warn-soft:#3a2912; --stop:#f08a8e; --stop-soft:#3d1a1d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1a1f; --surface:#13252b; --ink:#e4eef0; --muted:#9ab1b8; --line:#26404a;
+  --accent:#5cc3c8; --accent-ink:#06262a; --accent-soft:#163a40;
+  --warn:#f0b36d; --warn-soft:#3a2912; --stop:#f08a8e; --stop-soft:#3d1a1d; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding-inline:18px;padding-block:0 48px}
+#app[data-lang="en"] .es, #app[data-lang="es"] .en{display:none!important}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible, button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:1.9rem;font-weight:650}
+h2{font-size:1.4rem;font-weight:650}
+h3{font-size:1.08rem;font-weight:650;font-family:var(--body)}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar-in{max-width:720px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:700;font-size:.9rem;letter-spacing:.02em}
+.brand span{color:var(--muted);font-weight:500}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.seg button{font:inherit;font-size:.88rem;font-weight:600;border:0;background:transparent;color:var(--muted);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+
+/* hero */
+.hero{padding-block:28px 8px;display:grid;gap:14px}
+.hero p.lede{color:var(--muted);max-width:60ch}
+.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
+.quick a{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.quick a b{font-size:.98rem}
+.quick a small{color:var(--muted);font-size:.8rem}
+.quick a:hover{border-color:var(--accent)}
+
+section{padding-top:36px;display:grid;gap:14px;scroll-margin-top:64px}
+.sub{color:var(--muted);max-width:62ch}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.tl li:last-child{border-bottom:1px solid var(--line)}
+.when{font-weight:700;font-size:.82rem;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.tl h3{margin-bottom:4px}
+.tl ul{margin:6px 0 0;padding-left:18px;display:grid;gap:3px}
+.tl li.dose .when{color:var(--accent-ink);background:var(--accent);border-radius:8px;padding:6px 8px;align-self:start;text-align:center}
+
+.note{border-radius:12px;padding:14px 16px;display:grid;gap:6px}
+.note.warn{background:var(--warn-soft);color:var(--ink)}
+.note.warn .eyebrow{color:var(--warn)}
+.note.stop{background:var(--stop-soft)}
+.note.stop .eyebrow{color:var(--stop)}
+.note.info{background:var(--accent-soft)}
+.note ul{margin:0;padding-left:18px;display:grid;gap:3px}
+
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;min-width:0;align-content:start}
+.card ul{margin:0;padding-left:18px;display:grid;gap:3px}
+.yes .eyebrow{color:var(--accent)} .no .eyebrow{color:var(--stop)}
+
+/* procedure tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:600;font-size:.92rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.9rem}
+
+.loc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.loc .card h3{font-family:var(--display);font-size:1.05rem}
+.addr{color:var(--muted);font-size:.92rem}
+.phone{font-variant-numeric:tabular-nums;font-weight:600;user-select:all}
+.loc .links{display:flex;gap:14px;flex-wrap:wrap;font-size:.9rem;font-weight:600;margin-top:4px}
+
+.docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.docs a{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 14px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.92rem;min-width:0}
+.docs a span{color:var(--muted);font-weight:500;font-size:.78rem}
+
+.ig{display:flex;align-items:center;gap:16px;background:var(--ink);color:var(--bg);border-radius:14px;padding:18px;text-decoration:none}
+.ig svg{flex:none}
+.ig b{font-size:1.1rem;display:block}
+.ig small{opacity:.8}
+
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:grid;gap:8px}
+
+@media (max-width:560px){
+  .cols,.loc,.docs{grid-template-columns:minmax(0,1fr)}
+  .tl li{grid-template-columns:minmax(0,1fr);gap:6px}
+  .tl li.dose .when{justify-self:start}
+  h1{font-size:1.6rem}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+<div id="app" data-lang="en">
+<div class="bar"><div class="bar-in">
+  <div class="brand">GastroMED Miami <span>· Dr. Andrade</span></div>
+  <div class="seg" role="group" aria-label="Language / Idioma">
+    <button type="button" id="btn-en" data-set="en" aria-pressed="true">English</button>
+    <button type="button" id="btn-es" data-set="es" aria-pressed="false">Español</button>
+  </div>
+</div></div>
+
+<main class="wrap">
+
+<header class="hero">
+  <div class="eyebrow en">Patient guide</div><div class="eyebrow es">Guía para pacientes</div>
+  <h1 class="en">Getting ready for your colonoscopy or upper endoscopy</h1>
+  <h1 class="es">Cómo prepararse para su colonoscopia o endoscopia superior</h1>
+  <p class="lede en">From Christian M. Andrade, MD, gastroenterologist at GastroMED. A clean colon is what lets me find and remove small polyps safely, so the prep matters as much as the procedure. Everything you need is on this page.</p>
+  <p class="lede es">Del Dr. Christian M. Andrade, gastroenterólogo de GastroMED. Un colon bien limpio me permite encontrar y remover pólipos pequeños con seguridad, así que la preparación es tan importante como el procedimiento. Todo lo que necesita está en esta página.</p>
+  <nav class="quick" aria-label="Sections">
+    <a href="#prep"><b class="en">Split-dose prep</b><b class="es">Preparación en dos dosis</b><small class="en">Colonoscopy timeline</small><small class="es">Horario para colonoscopia</small></a>
+    <a href="#egd"><b class="en">Upper endoscopy prep</b><b class="es">Preparación para endoscopia</b><small class="en">EGD fasting rules</small><small class="es">Ayuno para EGD</small></a>
+    <a href="#dayof"><b class="en">Procedure day</b><b class="es">Día del procedimiento</b><small class="en">What to expect, by center</small><small class="es">Qué esperar, por centro</small></a>
+    <a href="https://gastromedmiami.com/doctor/christian-andrade-md/" target="_blank" rel="noopener"><b class="en">About Dr. Andrade</b><b class="es">Sobre el Dr. Andrade</b><small>gastromedmiami.com ↗</small></a>
+  </nav>
+</header>
+
+<!-- ============ SPLIT-DOSE PREP ============ -->
+<section id="prep">
+  <div class="eyebrow en">Colonoscopy</div><div class="eyebrow es">Colonoscopia</div>
+  <h2 class="en">Split-dose bowel preparation</h2>
+  <h2 class="es">Preparación intestinal en dos dosis</h2>
+  <p class="sub en">"Split dose" means you drink half of your prep the evening before and the other half the morning of your procedure. It cleans the colon better than drinking it all the night before. Your prescription (SUTAB, Clenpiq, or a PEG solution) comes with its own amounts. Use that sheet for <em>how much</em>, and this timeline for <em>when</em>.</p>
+  <p class="sub es">"Dos dosis" significa que toma la mitad de su preparación la noche anterior y la otra mitad la mañana del procedimiento. Limpia el colon mejor que tomarla toda la noche anterior. Su receta (SUTAB, Clenpiq o una solución de PEG) trae sus propias cantidades. Use esa hoja para saber <em>cuánto</em> tomar, y este horario para saber <em>cuándo</em>.</p>
+
+  <ol class="tl">
+    <li>
+      <div class="when en">7 days before</div><div class="when es">7 días antes</div>
+      <div>
+        <h3 class="en">Review your medicines</h3><h3 class="es">Revise sus medicamentos</h3>
+        <ul class="en">
+          <li>Blood thinners (Eliquis, Xarelto, warfarin, Plavix, Brilinta): call our office. Do not stop them on your own. We coordinate with the doctor who prescribes them.</li>
+          <li>Weekly GLP-1 injections (Ozempic, Wegovy, Mounjaro, Zepbound, Trulicity): tell us. You may need a longer liquid diet or a dose change.</li>
+          <li>SGLT2 diabetes pills (Jardiance, Farxiga, Invokana): usually stopped 3 days before. Confirm with us.</li>
+          <li>Stop iron pills and fiber supplements (Metamucil, Citrucel).</li>
+          <li>Buy your prep and clear liquids now. Arrange an adult to drive you home.</li>
+        </ul>
+        <ul class="es">
+          <li>Anticoagulantes (Eliquis, Xarelto, warfarina, Plavix, Brilinta): llame a nuestra oficina. No los suspenda por su cuenta. Coordinamos con el médico que los receta.</li>
+          <li>Inyecciones semanales GLP-1 (Ozempic, Wegovy, Mounjaro, Zepbound, Trulicity): avísenos. Puede necesitar una dieta líquida más larga o un cambio de dosis.</li>
+          <li>Pastillas para diabetes SGLT2 (Jardiance, Farxiga, Invokana): normalmente se suspenden 3 días antes. Confírmelo con nosotros.</li>
+          <li>Suspenda las pastillas de hierro y los suplementos de fibra (Metamucil, Citrucel).</li>
+          <li>Compre su preparación y líquidos claros ahora. Coordine que un adulto lo lleve a casa.</li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="when en">2 days before</div><div class="when es">2 días antes</div>
+      <div>
+        <h3 class="en">Low-fiber diet</h3><h3 class="es">Dieta baja en fibra</h3>
+        <p class="en">Eat white bread, white rice, pasta, eggs, chicken, fish, and well-cooked peeled vegetables. Avoid seeds, nuts, popcorn, corn, raw vegetables, salads, beans, whole grains, and fruit skins.</p>
+        <p class="es">Coma pan blanco, arroz blanco, pasta, huevos, pollo, pescado y vegetales pelados y bien cocidos. Evite semillas, nueces, palomitas, maíz, vegetales crudos, ensaladas, frijoles, granos integrales y cáscaras de frutas.</p>
+      </div>
+    </li>
+    <li>
+      <div class="when en">Day before</div><div class="when es">Día anterior</div>
+      <div>
+        <h3 class="en">Clear liquids only, all day</h3><h3 class="es">Solo líquidos claros, todo el día</h3>
+        <p class="en">No solid food from the time you wake up. Drink plenty. Staying hydrated makes the prep work better and helps you feel well.</p>
+        <p class="es">Nada de comida sólida desde que se levante. Tome bastante líquido. Mantenerse hidratado hace que la preparación funcione mejor y le ayuda a sentirse bien.</p>
+      </div>
+    </li>
+    <li class="dose">
+      <div class="when en">Dose 1 · ~6 PM</div><div class="when es">Dosis 1 · ~6 PM</div>
+      <div>
+        <h3 class="en">Evening before: first half of prep</h3><h3 class="es">Noche anterior: primera mitad</h3>
+        <p class="en">Drink the first half exactly as your prep sheet directs, followed by the extra water it lists. Stay near a bathroom. Chilling it and drinking through a straw helps.</p>
+        <p class="es">Tome la primera mitad exactamente como indica su hoja de preparación, seguida del agua adicional que indica. Quédese cerca de un baño. Tomarla fría y con pajita (sorbeto) ayuda.</p>
+      </div>
+    </li>
+    <li class="dose">
+      <div class="when en">Dose 2 · 5–6 h before</div><div class="when es">Dosis 2 · 5–6 h antes</div>
+      <div>
+        <h3 class="en">Morning of: second half of prep</h3><h3 class="es">Mañana del procedimiento: segunda mitad</h3>
+        <p class="en">Start 5 to 6 hours before your procedure time, even if that means waking up very early. Finish every drop, then the extra water.</p>
+        <p class="es">Comience 5 a 6 horas antes de la hora de su procedimiento, aunque tenga que levantarse muy temprano. Termínela toda y luego tome el agua adicional.</p>
+        <p class="en" style="margin-top:6px"><b>Example:</b> 9:00 AM procedure → start dose 2 at 3:00–4:00 AM.</p>
+        <p class="es" style="margin-top:6px"><b>Ejemplo:</b> procedimiento a las 9:00 AM → comience la dosis 2 a las 3:00–4:00 AM.</p>
+      </div>
+    </li>
+    <li>
+      <div class="when en">3 h before</div><div class="when es">3 h antes</div>
+      <div>
+        <h3 class="en">Nothing more by mouth</h3><h3 class="es">Nada más por la boca</h3>
+        <p class="en">Stop all liquids, gum, mints, and candy. This protects your lungs during anesthesia. If your center gives you a different cut-off time, follow the center.</p>
+        <p class="es">Suspenda todo líquido, chicle, mentas y caramelos. Esto protege sus pulmones durante la anestesia. Si su centro le da otra hora límite, siga la del centro.</p>
+      </div>
+    </li>
+  </ol>
+
+  <div class="cols">
+    <div class="card yes">
+      <div class="eyebrow en">Clear liquids: OK</div><div class="eyebrow es">Líquidos claros: sí</div>
+      <ul class="en"><li>Water, sparkling water</li><li>Gatorade, Pedialyte (not red or purple)</li><li>Apple, white grape, white cranberry juice (no pulp)</li><li>Sprite, ginger ale, lemonade</li><li>Coffee or tea with no milk or creamer</li><li>Clear broth or bouillon</li><li>Jell-O, popsicles (not red or purple)</li></ul>
+      <ul class="es"><li>Agua, agua con gas</li><li>Gatorade, Pedialyte (no rojo ni morado)</li><li>Jugo de manzana, uva blanca o arándano blanco (sin pulpa)</li><li>Sprite, ginger ale, limonada</li><li>Café o té sin leche ni crema</li><li>Caldo claro o consomé colado</li><li>Gelatina, paletas de hielo (no rojas ni moradas)</li></ul>
+    </div>
+    <div class="card no">
+      <div class="eyebrow en">Avoid</div><div class="eyebrow es">Evite</div>
+      <ul class="en"><li>Anything red or purple</li><li>Milk, creamer, smoothies, protein shakes</li><li>Orange juice or anything with pulp</li><li>Soup with noodles, rice, or vegetables</li><li>Alcohol</li><li>Any solid food</li></ul>
+      <ul class="es"><li>Todo lo rojo o morado</li><li>Leche, crema, batidos, licuados de proteína</li><li>Jugo de naranja o cualquier cosa con pulpa</li><li>Sopa con fideos, arroz o vegetales</li><li>Alcohol</li><li>Cualquier comida sólida</li></ul>
+    </div>
+  </div>
+
+  <div class="note info">
+    <div class="eyebrow en">How to know it worked</div><div class="eyebrow es">Cómo saber si funcionó</div>
+    <p class="en">Your stool should be clear or light yellow liquid, like urine, with no solid pieces. If it is still brown or cloudy after dose 2, call the center before you leave home.</p>
+    <p class="es">Sus evacuaciones deben ser líquidas, claras o amarillo claro, como la orina, sin pedazos sólidos. Si siguen color marrón o turbias después de la dosis 2, llame al centro antes de salir de casa.</p>
+  </div>
+  <div class="note warn">
+    <div class="eyebrow en">Call us</div><div class="eyebrow es">Llámenos</div>
+    <p class="en">If you vomit and can't keep the prep down, have severe belly pain, or feel dizzy or faint: <span class="phone">305-610-5555</span>. Diabetic? Check your sugar more often while on liquids.</p>
+    <p class="es">Si vomita y no puede retener la preparación, tiene dolor abdominal fuerte o se siente mareado: <span class="phone">305-610-5555</span>. ¿Es diabético? Mida su azúcar con más frecuencia mientras esté con líquidos.</p>
+  </div>
+</section>
+
+<!-- ============ EGD PREP ============ -->
+<section id="egd">
+  <div class="eyebrow en">Upper endoscopy (EGD)</div><div class="eyebrow es">Endoscopia superior (EGD)</div>
+  <h2 class="en">EGD preparation</h2><h2 class="es">Preparación para la EGD</h2>
+  <p class="sub en">An EGD looks at your esophagus, stomach, and the first part of the small intestine. No laxative is needed. You just need an empty stomach.</p>
+  <p class="sub es">La EGD examina el esófago, el estómago y la primera parte del intestino delgado. No necesita laxante. Solo necesita tener el estómago vacío.</p>
+  <ol class="tl">
+    <li><div class="when en">Night before</div><div class="when es">Noche anterior</div>
+      <div><h3 class="en">No solid food after midnight</h3><h3 class="es">Nada sólido después de la medianoche</h3>
+      <p class="en">At least 8 hours with no food before your procedure. Same medicine rules as colonoscopy apply: call about blood thinners, GLP-1 injections, and diabetes pills.</p>
+      <p class="es">Al menos 8 horas sin comida antes de su procedimiento. Aplican las mismas reglas de medicamentos que en la colonoscopia: llame sobre anticoagulantes, inyecciones GLP-1 y pastillas para la diabetes.</p></div></li>
+    <li><div class="when en">Until 3 h before</div><div class="when es">Hasta 3 h antes</div>
+      <div><h3 class="en">Clear liquids are OK</h3><h3 class="es">Se permiten líquidos claros</h3>
+      <p class="en">Water, clear juice, or black coffee. Take morning blood pressure, heart, and seizure medicines with a small sip of water, unless we told you otherwise.</p>
+      <p class="es">Agua, jugo claro o café negro. Tome sus medicinas de la mañana para la presión, el corazón o convulsiones con un sorbo pequeño de agua, a menos que le indiquemos otra cosa.</p></div></li>
+    <li><div class="when en">3 h before</div><div class="when es">3 h antes</div>
+      <div><h3 class="en">Nothing by mouth</h3><h3 class="es">Nada por la boca</h3>
+      <p class="en">No liquids, gum, or mints.</p><p class="es">Ni líquidos, ni chicle, ni mentas.</p></div></li>
+  </ol>
+  <p class="sub en">Having both procedures the same day? Follow the colonoscopy prep. It covers the EGD too.</p>
+  <p class="sub es">¿Le harán ambos procedimientos el mismo día? Siga la preparación de colonoscopia. Esa cubre también la EGD.</p>
+</section>
+
+<!-- ============ DAY OF ============ -->
+<section id="dayof">
+  <div class="eyebrow en">Procedure day</div><div class="eyebrow es">Día del procedimiento</div>
+  <h2 class="en">What to expect</h2><h2 class="es">Qué esperar</h2>
+
+  <div class="tabs" role="tablist" aria-label="Procedure">
+    <button type="button" role="tab" id="tab-colo" aria-selected="true" aria-controls="p-colo"><span class="en">Colonoscopy</span><span class="es">Colonoscopia</span></button>
+    <button type="button" role="tab" id="tab-egd" aria-selected="false" aria-controls="p-egd"><span class="en">Upper endoscopy (EGD)</span><span class="es">Endoscopia (EGD)</span></button>
+  </div>
+
+  <div id="p-colo" role="tabpanel" aria-labelledby="tab-colo">
+    <ol class="steps">
+      <li><div><b class="en">Arrive at the time the center gives you</b><b class="es">Llegue a la hora que le indique el centro</b>
+        <p class="en">Usually 45–60 minutes before your procedure. Bring photo ID, insurance card, and a list of your medicines.</p>
+        <p class="es">Normalmente 45–60 minutos antes. Traiga identificación con foto, tarjeta del seguro y una lista de sus medicamentos.</p></div></li>
+      <li><div><b class="en">Check-in and IV</b><b class="es">Registro y suero (IV)</b>
+        <p class="en">A nurse reviews your history and prep results and places an IV. You'll meet me and your anesthesia provider, and you can ask any questions.</p>
+        <p class="es">Una enfermera revisa su historial y cómo le fue con la preparación, y le coloca un suero. Me conocerá a mí y a su proveedor de anestesia, y podrá hacer todas sus preguntas.</p></div></li>
+      <li><div><b class="en">The procedure: about 20–40 minutes</b><b class="es">El procedimiento: unos 20–40 minutos</b>
+        <p class="en">You receive deep sedation (usually propofol) given by an anesthesia professional who monitors you the whole time. Most patients sleep through it and remember nothing. Any polyps I find are usually removed right then.</p>
+        <p class="es">Recibe sedación profunda (usualmente propofol), administrada por un profesional de anestesia que lo vigila todo el tiempo. La mayoría duerme y no recuerda nada. Los pólipos que encuentre normalmente los remuevo en ese momento.</p></div></li>
+      <li><div><b class="en">Recovery: 30–45 minutes</b><b class="es">Recuperación: 30–45 minutos</b>
+        <p class="en">Bloating and passing gas are normal. I'll review the findings with you and your companion before you leave. Biopsy results take about 1–2 weeks.</p>
+        <p class="es">La hinchazón y los gases son normales. Revisaré los resultados con usted y su acompañante antes de que se vaya. Los resultados de biopsias tardan de 1 a 2 semanas.</p></div></li>
+    </ol>
+  </div>
+
+  <div id="p-egd" role="tabpanel" aria-labelledby="tab-egd" hidden>
+    <ol class="steps">
+      <li><div><b class="en">Arrive at the time the center gives you</b><b class="es">Llegue a la hora que le indique el centro</b>
+        <p class="en">Usually 45–60 minutes before. Bring photo ID, insurance card, and your medicine list.</p>
+        <p class="es">Normalmente 45–60 minutos antes. Traiga identificación con foto, tarjeta del seguro y su lista de medicamentos.</p></div></li>
+      <li><div><b class="en">Check-in and IV</b><b class="es">Registro y suero (IV)</b>
+        <p class="en">A nurse places an IV. You'll meet me and your anesthesia provider. Remove dentures before the procedure.</p>
+        <p class="es">Una enfermera le coloca un suero. Me conocerá a mí y a su proveedor de anestesia. Se quitará las dentaduras antes del procedimiento.</p></div></li>
+      <li><div><b class="en">The procedure: about 10–15 minutes</b><b class="es">El procedimiento: unos 10–15 minutos</b>
+        <p class="en">You'll be sedated and a small mouth guard protects your teeth. You breathe normally throughout. The scope doesn't block your airway.</p>
+        <p class="es">Estará sedado y un protector bucal cuida sus dientes. Respira normalmente todo el tiempo; el endoscopio no bloquea sus vías respiratorias.</p></div></li>
+      <li><div><b class="en">Recovery: about 30 minutes</b><b class="es">Recuperación: unos 30 minutos</b>
+        <p class="en">A mild sore throat for a day is common. Start with liquids and soft foods, then eat normally unless I tell you otherwise.</p>
+        <p class="es">Es común tener la garganta algo irritada por un día. Empiece con líquidos y comidas blandas, y luego coma normal, a menos que le indique otra cosa.</p></div></li>
+    </ol>
+  </div>
+
+  <div class="note stop">
+    <div class="eyebrow en">You must have a driver</div><div class="eyebrow es">Debe tener quien lo lleve</div>
+    <p class="en">An adult must take you home and should stay nearby. Uber, Lyft, or a taxi alone is not allowed after sedation. Without a driver, your procedure will be rescheduled. No driving, working, alcohol, or signing important papers for the rest of the day.</p>
+    <p class="es">Un adulto debe llevarlo a casa y quedarse cerca. No se permite irse solo en Uber, Lyft o taxi después de la sedación. Sin acompañante, su procedimiento será reprogramado. No maneje, no trabaje, no tome alcohol ni firme documentos importantes el resto del día.</p>
+  </div>
+
+  <h3 class="en" style="margin-top:6px">Our endoscopy centers</h3>
+  <h3 class="es" style="margin-top:6px">Nuestros centros de endoscopia</h3>
+  <p class="sub en">Your appointment confirmation tells you which center to go to. Call that center with questions about your arrival time.</p>
+  <p class="sub es">Su confirmación de cita le indica a qué centro ir. Llame a ese centro si tiene preguntas sobre su hora de llegada.</p>
+  <div class="loc">
+    <div class="card"><h3>The Endoscopy Center</h3>
+      <div class="addr">5101 SW 8th St, Suite 100<br>Miami, FL 33134</div>
+      <div class="phone">305-461-1881</div>
+      <div class="addr en">Coral Gables area, in the same building as my office (Suite 200).</div>
+      <div class="addr es">Zona de Coral Gables, en el mismo edificio que mi consultorio (Suite 200).</div>
+      <div class="links"><a href="https://maps.google.com/?q=5101+SW+8th+St+Suite+100+Miami+FL" target="_blank" rel="noopener"><span class="en">Directions ↗</span><span class="es">Cómo llegar ↗</span></a></div></div>
+    <div class="card"><h3>Coral View</h3>
+      <div class="addr">8390 W Flagler St, Suite 221<br>Miami, FL 33144</div>
+      <div class="phone">305-226-5574</div>
+      <div class="links"><a href="https://maps.google.com/?q=8390+W+Flagler+St+Suite+221+Miami+FL+33144" target="_blank" rel="noopener"><span class="en">Directions ↗</span><span class="es">Cómo llegar ↗</span></a></div></div>
+    <div class="card"><h3>Homestead Endoscopy Center</h3>
+      <div class="addr">434 Washington Ave<br>Homestead, FL 33030</div>
+      <div class="phone">305-676-0609</div>
+      <div class="links"><a href="https://maps.google.com/?q=434+Washington+Ave+Homestead+FL+33030" target="_blank" rel="noopener"><span class="en">Directions ↗</span><span class="es">Cómo llegar ↗</span></a></div></div>
+    <div class="card"><h3>Sunset Endoscopy Center</h3>
+      <div class="addr">9195 SW 72nd St, Suite 100<br>Miami, FL 33173</div>
+      <div class="phone">786-503-0460</div>
+      <div class="links"><a href="https://maps.google.com/?q=9195+SW+72nd+St+Suite+100+Miami+FL+33173" target="_blank" rel="noopener"><span class="en">Directions ↗</span><span class="es">Cómo llegar ↗</span></a></div></div>
+  </div>
+
+  <div class="note warn">
+    <div class="eyebrow en">After you go home, call right away for</div><div class="eyebrow es">Después de irse a casa, llame de inmediato si tiene</div>
+    <p class="en">Severe or worsening belly pain, fever or chills, vomiting, black stools, or more than a few tablespoons of blood from the rectum: <span class="phone">305-610-5555</span>. If it's severe or after hours, go to the nearest emergency room or call 911.</p>
+    <p class="es">Dolor abdominal fuerte o que empeora, fiebre o escalofríos, vómitos, heces negras, o más de unas cucharadas de sangre por el recto: <span class="phone">305-610-5555</span>. Si es grave o fuera de horario, vaya a la sala de emergencias más cercana o llame al 911.</p>
+  </div>
+</section>
+
+<!-- ============ OFFICIAL FORMS ============ -->
+<section id="forms">
+  <div class="eyebrow en">Printable sheets</div><div class="eyebrow es">Hojas para imprimir</div>
+  <h2 class="en">GastroMED prep instructions</h2><h2 class="es">Instrucciones de GastroMED</h2>
+  <p class="sub en">Use the sheet for the prep you were prescribed.</p>
+  <p class="sub es">Use la hoja de la preparación que le recetaron (en inglés).</p>
+  <div class="docs">
+    <a href="https://gastromedmiami.com/wp-content/uploads/2026/02/COLONOSCOPY-PREP.pdf" target="_blank" rel="noopener">Colonoscopy prep <span>PDF ↗</span></a>
+    <a href="https://gastromedmiami.com/wp-content/uploads/2026/02/SUTABPrep.pdf" target="_blank" rel="noopener">SUTAB <span>PDF ↗</span></a>
+    <a href="https://gastromedmiami.com/wp-content/uploads/2026/02/CLENPIQ.pdf" target="_blank" rel="noopener">Clenpiq <span>PDF ↗</span></a>
+    <a href="https://gastromedmiami.com/wp-content/uploads/2026/02/EGDPrep.pdf" target="_blank" rel="noopener">EGD prep <span>PDF ↗</span></a>
+  </div>
+</section>
+
+<!-- ============ CONNECT ============ -->
+<section id="connect">
+  <a class="ig" href="https://www.instagram.com/gastromeddoc/" target="_blank" rel="noopener">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+    <div><b>@gastromeddoc</b>
+      <small class="en">Follow Dr. Andrade on Instagram for digestive-health tips</small>
+      <small class="es">Siga al Dr. Andrade en Instagram para consejos de salud digestiva</small></div>
+  </a>
+  <div class="docs">
+    <a href="https://gastromedmiami.com/doctor/christian-andrade-md/" target="_blank" rel="noopener"><span style="color:inherit;font-size:.92rem;font-weight:600" class="en">Dr. Andrade's profile</span><span style="color:inherit;font-size:.92rem;font-weight:600" class="es">Perfil del Dr. Andrade</span><span>↗</span></a>
+    <a href="https://healow.com/apps/provider/christian-andrademd-534228" target="_blank" rel="noopener"><span style="color:inherit;font-size:.92rem;font-weight:600" class="en">Book an appointment</span><span style="color:inherit;font-size:.92rem;font-weight:600" class="es">Hacer una cita</span><span>↗</span></a>
+  </div>
+</section>
+
+<footer>
+  <p><b>Christian M. Andrade, MD</b> · GastroMED · 5101 SW 8th St, Suite 200, Miami, FL 33134 · <span class="phone">305-262-6060</span></p>
+  <p class="en">General instructions for patients of Dr. Andrade. If your care team gave you different instructions, follow theirs. For emergencies, call 911.</p>
+  <p class="es">Instrucciones generales para pacientes del Dr. Andrade. Si su equipo médico le dio otras instrucciones, siga las de ellos. En caso de emergencia, llame al 911.</p>
+</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var app=document.getElementById('app');
+  function setLang(l){
+    app.setAttribute('data-lang',l);
+    document.documentElement.lang=l;
+    document.getElementById('btn-en').setAttribute('aria-pressed',l==='en');
+    document.getElementById('btn-es').setAttribute('aria-pressed',l==='es');
+    try{localStorage.setItem('lang',l)}catch(e){}
+  }
+  var h=(location.hash||'').replace('#','');
+  var saved=null; try{saved=localStorage.getItem('lang')}catch(e){}
+  var nav=(navigator.language||'').toLowerCase().indexOf('es')===0?'es':'en';
+  setLang(h==='es'?'es':h==='en'?'en':(saved||nav));
+  document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('click',function(){setLang(b.getAttribute('data-set'))})});
+  var tabs=[['tab-colo','p-colo'],['tab-egd','p-egd']];
+  tabs.forEach(function(t){document.getElementById(t[0]).addEventListener('click',function(){
+    tabs.forEach(function(u){var on=u[0]===t[0];document.getElementById(u[0]).setAttribute('aria-selected',on);document.getElementById(u[1]).hidden=!on;});
+  })});
+})();
+</script>
+
+</body>
+</html>
