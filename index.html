@@ -122,6 +122,15 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:v
 }
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
+<!-- Anonymous visit counter (GoatCounter): no cookies, no IP addresses stored, page views only. -->
+<script>
+(function(){
+  var qr = /(^|[?&])src=qr(&|$)/.test(location.search);
+  window.goatcounter = { path: function(){ return location.pathname + (qr ? "?src=qr" : ""); } };
+  if(qr && history.replaceState){ try{ history.replaceState(null, "", location.pathname + location.hash); }catch(e){} }
+})();
+</script>
+<script data-goatcounter="https://drandrade.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 
