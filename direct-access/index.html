@@ -497,12 +497,14 @@ function render(){
 
 function vIntro(){
   return ''+
-  '<div class="eyebrow">'+T({en:"Direct-access screening colonoscopy",es:"Colonoscopia de detección con acceso directo"})+'</div>'+
-  '<h1>'+T({en:"Can I schedule my screening colonoscopy directly?",es:"¿Puedo programar mi colonoscopia de detección directamente?"})+'</h1>'+
-  '<div class="doc"><img src="'+PHOTO+'" width="88" height="88" alt="'+T({en:"Photo of Dr. Christian M. Andrade",es:"Foto del Dr. Christian M. Andrade"})+'">'+
+  '<div class="eyebrow">'+T({en:"Direct-access screening colonoscopy",es:"Colonoscopia preventiva con acceso directo"})+'</div>'+
+  '<h1>'+T({en:"Skip the office visit?",es:"¿Colonoscopia sin consulta previa?"})+'</h1>'+
+  '<div class="doc"><img src="'+PHOTO+'" width="64" height="64" alt="'+T({en:"Photo of Dr. Christian M. Andrade",es:"Foto del Dr. Christian M. Andrade"})+'">'+
     '<div><b>Christian M. Andrade, MD</b><span class="muted small">'+T({en:"Gastroenterologist · GastroMED Miami",es:"Gastroenterólogo · GastroMED Miami"})+'</span></div></div>'+
-  '<p class="muted">'+T({en:"Hi, I'm Dr. Andrade. If you're healthy and due for routine colon cancer screening, you may be able to schedule your colonoscopy without an office visit first. Answer these questions (about 3 minutes). If you qualify, you'll get a direct scheduling line. If not, I'll point you to an office visit, which is the safest first step for many patients.",
-     es:"Hola, soy el Dr. Andrade. Si usted está sano y le toca su examen de rutina para detectar cáncer de colon, es posible que pueda programar su colonoscopia sin una consulta previa. Conteste estas preguntas (unos 3 minutos). Si califica, recibirá una línea directa para programar. Si no, le indicaré cómo hacer una cita en la oficina, que es el primer paso más seguro para muchos pacientes."})+'</p>'+
+  '<p>'+T({en:"Healthy and due for colon cancer screening? Answer a few questions to see if you can schedule your colonoscopy with me directly.",
+     es:"¿Está sano y le toca su colonoscopia preventiva? Conteste unas preguntas para ver si puede programarla directamente conmigo."})+'</p>'+
+  '<button type="button" class="btn block" data-act="start">'+T({en:"Start the questions",es:"Comenzar las preguntas"})+'</button>'+
+  '<p class="muted small" style="text-align:center">'+T({en:"About 3 minutes · Your answers stay on this phone",es:"Unos 3 minutos · Sus respuestas se quedan en este teléfono"})+'</p>'+
   '<div class="cols">'+
     '<div class="card yes"><div class="eyebrow">'+T({en:"This is for",es:"Esto es para"})+'</div><ul>'+
       '<li>'+T({en:"Adults 45 to 75 due for routine screening (40 and up with a family history)",es:"Adultos de 45 a 75 años que necesitan su examen de rutina (desde los 40 con antecedentes familiares)"})+'</li>'+
@@ -615,7 +617,7 @@ function vAttest(){
   '<h1>'+T({en:"Please confirm before you continue",es:"Por favor confirme antes de continuar"})+'</h1>'+
   '<div class="card attest">'+
     '<p>'+T({en:"I confirm my answers are true and complete to the best of my knowledge. I understand that Dr. Andrade and GastroMED will rely on them to decide whether I can safely skip an office visit before my screening colonoscopy, and I accept responsibility for the accuracy of the information I provide. Leaving out information or giving inaccurate information may put me at risk of complications, may lead to my procedure being cancelled or rescheduled, and may affect my insurance coverage.",
-       es:"Confirmo que mis respuestas son verdaderas y completas según mi leal saber y entender. Entiendo que el Dr. Andrade y GastroMED se basarán en ellas para decidir si puedo, de forma segura, omitir la consulta en la oficina antes de mi colonoscopia de detección, y acepto la responsabilidad por la exactitud de la información que proporciono. Omitir información o dar información incorrecta puede ponerme en riesgo de complicaciones, puede causar que mi procedimiento sea cancelado o reprogramado, y puede afectar la cobertura de mi seguro."})+'</p>'+
+       es:"Confirmo que mis respuestas son verdaderas y completas según mi leal saber y entender. Entiendo que el Dr. Andrade y GastroMED se basarán en ellas para decidir si puedo, de forma segura, omitir la consulta en la oficina antes de mi colonoscopia preventiva, y acepto la responsabilidad por la exactitud de la información que proporciono. Omitir información o dar información incorrecta puede ponerme en riesgo de complicaciones, puede causar que mi procedimiento sea cancelado o reprogramado, y puede afectar la cobertura de mi seguro."})+'</p>'+
     '<p>'+T({en:"I understand that completing this questionnaire does not create a doctor–patient relationship and does not guarantee a procedure. A doctor–patient relationship with Dr. Andrade begins only when I am evaluated by him or his team, in the office or at the endoscopy center. After reviewing my answers and records, his team may still require an office visit.",
        es:"Entiendo que completar este cuestionario no crea una relación médico-paciente y no garantiza un procedimiento. La relación médico-paciente con el Dr. Andrade comienza solamente cuando él o su equipo me evalúan, en la oficina o en el centro de endoscopia. Después de revisar mis respuestas y mi historial médico, su equipo aún puede requerir una consulta en la oficina."})+'</p>'+
   '</div>'+
@@ -632,14 +634,14 @@ function vPass(){
     : '<div class="placeholder">'+T({en:"Direct scheduling line: coming soon",es:"Línea directa para programar: próximamente"})+'</div>';
   return ''+
   '<div class="eyebrow">'+T({en:"You may qualify",es:"Es posible que califique"})+'</div>'+
-  '<h1>'+T({en:"Call and leave a voicemail to schedule your screening colonoscopy",es:"Llame y deje un mensaje de voz para programar su colonoscopia de detección"})+'</h1>'+
+  '<h1>'+T({en:"Call and leave a voicemail to schedule your screening colonoscopy",es:"Llame y deje un mensaje de voz para programar su colonoscopia preventiva"})+'</h1>'+
   '<p class="muted">'+T({en:"Based on your answers, you may be able to schedule without an office visit first. This line goes to voicemail and is only for direct-access screening colonoscopy. GastroMED's scheduling team will call you back to schedule.",
-     es:"Según sus respuestas, es posible que pueda programar sin una consulta previa. Esta línea va a un buzón de voz y es solo para colonoscopias de detección con acceso directo. El equipo de citas de GastroMED le devolverá la llamada para programar."})+'</p>'+
+     es:"Según sus respuestas, es posible que pueda programar sin una consulta previa. Esta línea va a un buzón de voz y es solo para colonoscopias preventivas con acceso directo. El equipo de citas de GastroMED le devolverá la llamada para programar."})+'</p>'+
   '<div class="card">'+line+'</div>'+
   (notes.length ? '<div class="note warn"><div class="eyebrow">'+T({en:"When we call you back, tell the scheduler about",es:"Cuando le devolvamos la llamada, informe a quien le programe sobre"})+'</div><ul>'+
      notes.map(function(n){return '<li>'+T(n.t)+'</li>';}).join('')+'</ul></div>' : '')+
   '<div class="card"><div class="eyebrow">'+T({en:"In your voicemail, say",es:"En su mensaje de voz, diga"})+'</div><ul>'+
-    '<li>'+T({en:"That you're calling for a direct-access screening colonoscopy with Dr. Andrade",es:"Que llama para una colonoscopia de detección con acceso directo con el Dr. Andrade"})+'</li>'+
+    '<li>'+T({en:"That you're calling for a direct-access screening colonoscopy with Dr. Andrade",es:"Que llama para una colonoscopia preventiva con acceso directo con el Dr. Andrade"})+'</li>'+
     '<li>'+T({en:"Your full name, and spell your last name",es:"Su nombre completo, y deletree su apellido"})+'</li>'+
     '<li>'+T({en:"Your date of birth",es:"Su fecha de nacimiento"})+'</li>'+
     '<li>'+T({en:"The best phone number to call you back, said slowly",es:"El mejor teléfono para devolverle la llamada, dicho despacio"})+'</li>'+
@@ -659,7 +661,7 @@ function vPass(){
   '</ol>'+
   '<div class="note info"><div class="eyebrow">'+T({en:"About cost",es:"Sobre el costo"})+'</div><p>'+
     T({en:"Screening colonoscopy is usually covered as preventive care. If a polyp is removed or a biopsy is taken, some plans, including Medicare, may charge a copay or coinsurance. Check with your insurance.",
-       es:"La colonoscopia de detección normalmente está cubierta como cuidado preventivo. Si se remueve un pólipo o se toma una biopsia, algunos planes, incluyendo Medicare, pueden cobrar un copago o coaseguro. Consulte con su seguro."})+'</p></div>'+
+       es:"La colonoscopia preventiva normalmente está cubierta como cuidado preventivo. Si se remueve un pólipo o se toma una biopsia, algunos planes, incluyendo Medicare, pueden cobrar un copago o coaseguro. Consulte con su seguro."})+'</p></div>'+
   signoff({en:"Thank you for taking care of your health. I look forward to seeing you.", es:"Gracias por cuidar su salud. Espero verlo pronto."})+
   '<a class="btn ghost block" href="'+CONFIG.prepGuideUrl+'">'+T({en:"See how to prepare for your colonoscopy",es:"Vea cómo prepararse para su colonoscopia"})+'</a>'+
   '<button type="button" class="linkbtn small" data-act="restart">'+T({en:"Start over",es:"Empezar de nuevo"})+'</button>';
