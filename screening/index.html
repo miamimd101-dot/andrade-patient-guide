@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Direct-Access Screening Colonoscopy · GastroMED Miami</title>
+<meta name="description" content="Choose your GastroMED gastroenterologist and check whether you can schedule a screening colonoscopy directly, without an office visit first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Figtree:wght@400;500;600;700&display=swap">
+<!--
+  PRIVACY BY DESIGN: this page runs entirely in the patient's browser.
+  No form is submitted, nothing is stored (no cookies, no localStorage), no answers go in the URL,
+  and no answers are ever sent anywhere. The only network call is an anonymous visit counter
+  (GoatCounter: no cookies, no IP addresses stored) that records page views and four funnel totals
+  (started / qualified / routed to office / routed to Monica, plus which doctor was chosen) with NO answers attached.
+  Doctor photos load from gastromedmiami.com; nothing about the patient is attached to those requests.
+  Never send answers, plan names, or anything typed. Collecting those would mean collecting PHI and
+  would require a HIPAA-compliant platform with a BAA.
+-->
+<style>
+:root{
+  --bg:#f5f8f8; --surface:#ffffff; --ink:#0f2a33; --muted:#4e6770; --line:#d6e1e3;
+  --accent:#0b6e75; --accent-ink:#ffffff; --accent-soft:#e0f0f0;
+  --warn:#9a4a07; --warn-soft:#fdf1e3; --stop:#a1262b; --stop-soft:#fbe9ea;
+  --display:"Literata", Georgia, "Times New Roman", serif;
+  --body:"Figtree", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1a1f; --surface:#13252b; --ink:#e4eef0; --muted:#9ab1b8; --line:#26404a;
+  --accent:#5cc3c8; --accent-ink:#06262a; --accent-soft:#163a40;
+  --warn:#f0b36d; --warn-soft:#3a2912; --stop:#f08a8e; --stop-soft:#3d1a1d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1a1f; --surface:#13252b; --ink:#e4eef0; --muted:#9ab1b8; --line:#26404a;
+  --accent:#5cc3c8; --accent-ink:#06262a; --accent-soft:#163a40;
+  --warn:#f0b36d; --warn-soft:#3a2912; --stop:#f08a8e; --stop-soft:#3d1a1d; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:640px;margin:0 auto;padding-inline:18px;padding-block:0 48px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+h1,h2{font-family:var(--display);text-wrap:balance;line-height:1.22;margin:0}
+h1{font-size:1.8rem;font-weight:650}
+h2{font-size:1.38rem;font-weight:650}
+h1:focus,h2:focus{outline:none}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar-in{max-width:640px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:700;font-size:.9rem;letter-spacing:.02em;min-width:0}
+.brand span{color:var(--muted);font-weight:500}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);flex:none}
+.seg button{font:inherit;font-size:.88rem;font-weight:600;border:0;background:transparent;color:var(--muted);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+
+.screen{padding-top:26px;display:grid;gap:16px}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .25s}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px}
+.card ul,.note ul,.ex{margin:0;padding-left:20px;display:grid;gap:4px}
+.note{border-radius:12px;padding:14px 16px;display:grid;gap:6px}
+.note.info{background:var(--accent-soft)}
+.note.warn{background:var(--warn-soft)} .note.warn .eyebrow{color:var(--warn)}
+.note.stop{background:var(--stop-soft)} .note.stop .eyebrow{color:var(--stop)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.yes .eyebrow{color:var(--accent)} .no .eyebrow{color:var(--stop)}
+
+.choices{display:grid;gap:10px;margin-top:4px}
+.choice{font:inherit;font-size:1.05rem;font-weight:600;text-align:left;min-height:56px;padding:14px 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:12px}
+.choice:hover{border-color:var(--accent)}
+.choice[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.yn{grid-template-columns:repeat(2,minmax(0,1fr))}
+.yn .choice{justify-content:center;text-align:center;font-size:1.12rem}
+
+.btn{font:inherit;font-weight:700;font-size:1.02rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:12px 20px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--line)}
+.btn.block{width:100%}
+.linkbtn{font:inherit;font-weight:600;background:none;border:0;color:var(--accent);padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.actions{display:grid;gap:10px}
+.minor{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center}
+
+.check{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer}
+.check input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);flex:none}
+.check:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+
+.bmi{display:grid;gap:12px}
+.bmi-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field{display:grid;gap:4px;font-weight:600;font-size:.92rem}
+.field input,.field select{font:inherit;font-size:1.1rem;padding:12px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-width:0}
+.units{justify-self:start}
+.bmi-out{font-variant-numeric:tabular-nums;font-weight:700}
+
+.phonebig{display:block;font-size:1.9rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.01em;text-decoration:none;color:var(--accent)}
+.placeholder{border:2px dashed var(--warn);border-radius:12px;padding:14px;color:var(--warn);font-weight:700}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:.88rem}
+.attest p+p{margin-top:8px}
+
+.doc{display:flex;align-items:center;gap:14px}
+.doc img,.signoff img{border-radius:50%;object-fit:cover;flex:none;background:var(--accent-soft);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.doc b{display:block;font-size:1.02rem}
+.signoff{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.signoff p+p{margin-top:2px}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.84rem;display:grid;gap:8px}
+.phone{font-variant-numeric:tabular-nums;font-weight:600}
+
+.pick{display:grid;gap:10px}
+.docbtn{font:inherit;color:var(--ink);text-align:left;display:flex;align-items:center;gap:14px;width:100%;min-height:76px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer}
+.docbtn:hover{border-color:var(--accent)}
+.docbtn .dtxt{min-width:0;display:grid;gap:1px}
+.docbtn b{font-size:1.04rem;line-height:1.3}
+.docbtn .chev{margin-left:auto;padding-left:6px;color:var(--accent);font-size:1.6rem;line-height:1;flex:none}
+.av{position:relative;flex:none;display:grid;place-items:center;border-radius:50%;overflow:hidden;background:var(--accent-soft);color:var(--accent);font-weight:700;letter-spacing:.02em;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;border-radius:0;box-shadow:none;background:none}
+.av svg{width:56%;height:56%}
+.chosen{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.doc .muted{display:block}
+.phone{white-space:nowrap}
+@media (max-width:520px){
+  .cols{grid-template-columns:minmax(0,1fr)}
+  h1{font-size:1.55rem}
+  .brand span{display:none}
+}
+</style>
+<!-- Anonymous visit counter (GoatCounter): no cookies, no IP addresses stored, page views and funnel totals only. -->
+<script>
+(function(){
+  var qr = /(^|[?&])src=qr(&|$)/.test(location.search);
+  window.goatcounter = { path: function(){ return location.pathname + (qr ? "?src=qr" : ""); } };
+  if(qr && history.replaceState){ try{ history.replaceState(null, "", location.pathname + location.hash); }catch(e){} }
+})();
+</script>
+<script data-goatcounter="https://drandrade.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<div class="bar"><div class="bar-in">
+  <div class="brand">GastroMED Miami</div>
+  <div class="seg" role="group" aria-label="Language / Idioma">
+    <button type="button" data-set="en" aria-pressed="true">English</button>
+    <button type="button" data-set="es" aria-pressed="false">Español</button>
+  </div>
+</div></div>
+
+<main class="wrap">
+  <div id="screen" class="screen" aria-live="polite"></div>
+  <footer id="foot"></footer>
+</main>
+
+<script>
+(function(){
+"use strict";
+
+/* ================= CONFIG ================= */
+var CONFIG = {
+  // Dedicated direct-access scheduling line. Leave display empty to show a "coming soon" placeholder.
+  line: { display: "786-699-1001", tel: "+17866991001" },
+  lineHours: { en: "Leave a message 24/7. Our scheduling team will call you back to schedule.", es: "Deje un mensaje las 24 horas, los 7 días de la semana. Nuestro equipo de citas le devolverá la llamada para programar." },
+  office: { display: "305-610-5555", tel: "+13056105555" },
+  doctorsUrl: "https://gastromedmiami.com/physicians/",
+  prepGuideUrl: "https://gastromedmiami.com/preparation/",
+  // Practice manager who books prompt appointments (rectal bleeding, positive FIT/Cologuard)
+  manager: { name: "Monica Vega", email: "mvega@gastromedmiami.com" },
+  bmiMax: 43
+};
+
+/* GastroMED gastroenterologists, from gastromedmiami.com/physicians (Nov 2026).
+   Photos load from the practice website; if one fails, the initials show instead. */
+var IMG = "https://gastromedmiami.com/wp-content/uploads/";
+var DOCTORS = [
+  {id:"andrade", name:"Christian M. Andrade, MD", last:"Andrade", ini:"CA", area:"Coral Gables", img:"2024/09/4-Dr.-Andrade-150x150.jpg", url:"christian-andrade-md"},
+  {id:"carrion", name:"Andres F. Carrion, MD", last:"Carrion", ini:"AC", area:"Homestead", img:"2026/02/10-Dr-Carrion-150x150.jpg", url:"andres-f-carrion-md"},
+  {id:"chawla", name:"Karan Chawla, MD", last:"Chawla", ini:"KC", area:"West Kendall · Homestead", img:"2026/02/Dr.-Chawla-150x150.jpg", url:"karan-chawla-md"},
+  {id:"diaz", name:"Carlos R. Diaz, MD", last:"Diaz", ini:"CD", area:"Palmetto Bay", img:"2026/02/Carlos-Diaz-MD--150x150.png", url:"carlos-r-diaz-md"},
+  {id:"flikshteyn", name:"Ben Flikshteyn, MD", last:"Flikshteyn", ini:"BF", area:"Miami Lakes", img:"2026/02/Dr.-Flikshteyn-150x150.jpg", url:"ben-flikshteyn-md"},
+  {id:"garib", name:"Onix C. Garib Alpizar, MD", last:"Garib", ini:"OG", area:"Homestead", img:"2026/02/16.-Dr.-Garib-150x150.jpg", url:"onix-c-garib-alpizar-md"},
+  {id:"marin", name:"Cristina Marin, MD", last:"Marin", f:1, ini:"CM", area:"Sunset", img:"2026/02/5-Dr.Marin_-150x150.jpg", url:"cristina-marin-md"},
+  {id:"rodriguez", name:"Andres Rodriguez, DO", last:"Rodriguez", ini:"AR", area:"Doral", img:"2026/06/image-22-150x150.png", url:"andres-rodriguez-do"},
+  {id:"souto", name:"Enrico O. Souto, MD", last:"Souto", ini:"ES", area:"Sunset", img:"2026/02/11-Dr.-Souto-150x150.jpg", url:"enrico-o-souto-md"},
+  {id:"suarez", name:"Jorge Suarez, MD", last:"Suarez", ini:"JS", area:"Doral", img:"2026/02/6-Dr.-Suarez-150x150.jpg", url:"jorge-suarez-md"},
+  {id:"valladares", name:"Michael Valladares, DO", last:"Valladares", ini:"MV", area:"West Kendall", img:"2026/02/7-Dr-Valladares-150x150.jpg", url:"michael-valladares-do"},
+  {id:"vazquez", name:"Raul Vazquez, MD", last:"Vazquez", ini:"RV", area:"Palmetto Bay · Miami Lakes", img:"2026/06/19-Dr.-Vazquez-Reyes-150x150.png", url:"raul-vazquez-md"},
+  {id:"veloso", name:"Alexander Veloso, MD", last:"Alexander Veloso", ini:"AV", area:"Coral Gables", img:"2024/09/3-Dr.-Alexander-Veloso-150x150.jpg", url:"alexander-veloso-md"},
+  {id:"zamora", name:"Ernesto Zamora, MD", last:"Zamora", ini:"EZ", area:"Palmetto Bay · Homestead", img:"2026/02/Dr.-Zamora-150x150.jpg", url:"ernesto-zamora-md"}
+];
+var ANY = { id:"any", any:true };
+function docById(id){ for(var i=0;i<DOCTORS.length;i++){ if(DOCTORS[i].id===id) return DOCTORS[i]; } return null; }
+function D(){ return S.doc || ANY; }
+/* "Dr. Suarez" / "el Dr. Suarez" / "la Dra. Marin" */
+function drT(){ var d=D(); if(d.any) return T({en:"your GastroMED gastroenterologist", es:"su gastroenterólogo de GastroMED"}); return T({en:"Dr. "+d.last, es:(d.f?"la Dra. ":"el Dr. ")+d.last}); }
+/* Spanish after "a": "al Dr. Suarez" / "a la Dra. Marin" */
+function drA(){ var d=D(); if(S.lang!=="es") return drT(); if(d.any) return "a su gastroenterólogo de GastroMED"; return (d.f?"a la Dra. ":"al Dr. ")+d.last; }
+function drBare(){ var d=D(); return (S.lang==="es" && d.f ? "Dra. " : "Dr. ")+d.last; }
+function gTitle(d){ return T({en:"Gastroenterologist", es:(d.f?"Gastroenteróloga":"Gastroenterólogo")}); }
+function av(d, s){
+  var inner = d.any
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><circle cx="17" cy="9" r="2.6"/><path d="M15.6 14.4c2.3.1 4.2 1.7 4.9 4.6"/></svg>'
+    : esc(d.ini)+'<img src="'+IMG+d.img+'" alt="" width="'+s+'" height="'+s+'" referrerpolicy="no-referrer" onerror="this.remove()">';
+  return '<span class="av" style="width:'+s+'px;height:'+s+'px;font-size:'+Math.round(s*0.32)+'px">'+inner+'</span>';
+}
+function pickDoc(id){ S.doc = id==="any" ? ANY : (docById(id) || ANY); track("dr-"+S.doc.id); act("start"); }
+
+/* ================= HELPERS ================= */
+/* Funnel totals only. Never pass answers or anything typed. */
+var SENT = {};
+function track(name){ if(SENT[name]) return; SENT[name]=1; try{ if(window.goatcounter && window.goatcounter.count){ window.goatcounter.count({ path: "gm-" + name, title: "GastroMED screening: " + name, event: true }); } }catch(e){} }
+var S = { lang: "en", view: "intro", doc: null, qi: 0, answers: {}, failKey: null, failQ: null, attested: false, units: "us", bmi: {ft:"", inch:"", lb:"", cm:"", kg:""} };
+function T(o){ return (o && typeof o === "object") ? (o[S.lang] || o.en) : (o || ""); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+var YES = {en:"Yes", es:"Sí"}, NO = {en:"No", es:"No"};
+
+/* ================= QUESTIONS =================
+   rule(answer, answers) returns:  "fail:<key>"  |  null (continue)
+   Notes for the scheduler are computed at the end from answers (see NOTES). */
+var Q = [
+  { id:"age", type:"choice",
+    q:{en:"How old are you?", es:"¿Qué edad tiene?"},
+    options:[
+      {v:"u40", l:{en:"Under 40", es:"Menos de 40"}},
+      {v:"40", l:{en:"40 to 44", es:"De 40 a 44"}},
+      {v:"45", l:{en:"45 to 75", es:"De 45 a 75"}},
+      {v:"76", l:{en:"76 or older", es:"76 o más"}}],
+    rule:function(a){ return a==="u40" ? "fail:young" : a==="76" ? "fail:old" : null; } },
+
+  { id:"ins", type:"choice",
+    q:{en:"Which insurance will you use?", es:"¿Qué seguro médico va a usar?"},
+    help:{en:"Check your insurance card. Direct scheduling is available only with these plans, because they don't need a referral or prior authorization.",
+          es:"Revise su tarjeta del seguro. La programación directa solo está disponible con estos planes, porque no requieren referido ni autorización previa."},
+    options:[
+      {v:"aetna", l:{en:"Aetna PPO", es:"Aetna PPO"}},
+      {v:"ambetter", l:{en:"Ambetter (any plan except the Value plan)", es:"Ambetter (cualquier plan excepto el plan Value)"}},
+      {v:"avmed", l:{en:"AvMed PPO", es:"AvMed PPO"}},
+      {v:"bcbs", l:{en:"Blue Cross Blue Shield PPO, including Florida Blue PPO", es:"Blue Cross Blue Shield PPO, incluyendo Florida Blue PPO"}},
+      {v:"cigna", l:{en:"Cigna PPO", es:"Cigna PPO"}},
+      {v:"doctors", l:{en:"Doctors HealthCare Plans (DrMax plan only)", es:"Doctors HealthCare Plans (solo el plan DrMax)"}},
+      {v:"humana", l:{en:"Humana PPO", es:"Humana PPO"}},
+      {v:"medicare", l:{en:"Original Medicare (red, white, and blue card)", es:"Medicare Original (tarjeta roja, blanca y azul)"}},
+      {v:"molina", l:{en:"Molina Marketplace", es:"Molina Marketplace"}},
+      {v:"oscar", l:{en:"Oscar", es:"Oscar"}},
+      {v:"uhc", l:{en:"UnitedHealthcare PPO", es:"UnitedHealthcare PPO"}},
+      {v:"other", l:{en:"Another plan, including any HMO, Medicare Advantage, or Medicaid plan", es:"Otro plan, incluyendo cualquier HMO, Medicare Advantage o Medicaid"}},
+      {v:"none", l:{en:"No insurance (self-pay)", es:"Sin seguro (pago propio)"}},
+      {v:"unsure", l:{en:"I'm not sure which plan I have", es:"No estoy seguro(a) de qué plan tengo"}}],
+    rule:function(a){ return (a==="other" || a==="unsure") ? "fail:insurance" : a==="none" ? "fail:selfpay" : null; } },
+
+  { id:"famhx", type:"yn",
+    q:{en:"Has a parent, brother, sister, or child been diagnosed with colon or rectal cancer, or an advanced colon polyp?",
+       es:"¿Su padre, madre, hermano, hermana o hijo ha sido diagnosticado con cáncer de colon o recto, o con un pólipo avanzado del colon?"},
+    help:{en:"If yes, you can still continue. You may need screening earlier and more often.",
+          es:"Si la respuesta es sí, puede continuar. Es posible que necesite exámenes más temprano y con más frecuencia."},
+    rule:function(a, A){ return (A.age==="40" && a==="no") ? "fail:young" : null; } },
+
+  { id:"hered", type:"yn",
+    q:{en:"Have you or a blood relative been diagnosed with an inherited colon cancer syndrome, such as Lynch syndrome or familial adenomatous polyposis (FAP)?",
+       es:"¿Usted o un familiar de sangre ha sido diagnosticado con un síndrome hereditario de cáncer de colon, como el síndrome de Lynch o la poliposis adenomatosa familiar (PAF)?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"personal", type:"yn",
+    q:{en:"Have you ever been diagnosed with colon polyps, colon or rectal cancer, Crohn's disease, or ulcerative colitis?",
+       es:"¿Alguna vez le han diagnosticado pólipos en el colon, cáncer de colon o recto, enfermedad de Crohn o colitis ulcerosa?"},
+    help:{en:"If you've had polyps before, your next colonoscopy is a follow-up (surveillance) exam that your doctor plans with you at an office visit.",
+          es:"Si ya ha tenido pólipos, su próxima colonoscopia es un examen de seguimiento (vigilancia) que su médico planifica con usted en una consulta."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"lastcolo", type:"choice",
+    q:{en:"When was your last colonoscopy?", es:"¿Cuándo fue su última colonoscopia?"},
+    options:[
+      {v:"never", l:{en:"I've never had one", es:"Nunca me han hecho una"}},
+      {v:"10plus", l:{en:"More than 10 years ago", es:"Hace más de 10 años"}},
+      {v:"5to10", l:{en:"5 to 10 years ago", es:"Hace 5 a 10 años"}},
+      {v:"u5", l:{en:"Less than 5 years ago", es:"Hace menos de 5 años"}}],
+    rule:function(a, A){ if(a==="u5") return "fail:recent"; if(a==="5to10" && A.famhx!=="yes") return "fail:recent"; return null; } },
+
+  { id:"bleed_rectal", type:"yn",
+    q:{en:"In the last 6 months, have you had any blood in or on your stool, or bleeding from the rectum?",
+       es:"En los últimos 6 meses, ¿ha tenido sangre en las heces o sangrado por el recto?"},
+    help:{en:"Even a small amount, or blood only on the toilet paper, counts.",
+          es:"Aunque sea poca, o solo en el papel higiénico, cuenta."},
+    rule:function(a){ return a==="yes" ? "fail:prompt_bleed" : null; } },
+
+  { id:"symptoms", type:"yn", urgent:true,
+    q:{en:"In the last 6 months, have you had any of these?", es:"En los últimos 6 meses, ¿ha tenido alguno de estos?"},
+    list:[
+      {en:"Black, tar-like stools", es:"Heces negras, como alquitrán"},
+      {en:"A change in bowel habits lasting more than a few weeks (new constipation, diarrhea, or thinner stools)", es:"Un cambio en sus evacuaciones que dura más de unas semanas (estreñimiento nuevo, diarrea o heces más finas)"},
+      {en:"Belly pain that keeps coming back", es:"Dolor abdominal que va y viene o no se quita"},
+      {en:"Weight loss without trying", es:"Pérdida de peso sin intentarlo"},
+      {en:"Being told you have anemia or low iron", es:"Le dijeron que tiene anemia o el hierro bajo"}],
+    rule:function(a){ return a==="yes" ? "fail:symptoms" : null; } },
+
+  { id:"stool", type:"yn",
+    q:{en:"In the last 12 months, did a stool test for colon cancer (Cologuard or FIT) come back positive or abnormal?",
+       es:"En los últimos 12 meses, ¿una prueba de heces para cáncer de colon (Cologuard o FIT) salió positiva o anormal?"},
+    rule:function(a){ return a==="yes" ? "fail:prompt_stool" : null; } },
+
+  { id:"bmi", type:"bmi",
+    q:{en:"What is your height and weight?", es:"¿Cuál es su estatura y su peso?"},
+    help:{en:"We use these to calculate your body mass index (BMI). They stay on your phone.",
+          es:"Los usamos para calcular su índice de masa corporal (IMC). Se quedan en su teléfono."},
+    rule:function(bmi){ return bmi >= CONFIG.bmiMax ? "fail:visit" : null; } },
+
+  { id:"osa", type:"yn",
+    q:{en:"Have you been diagnosed with sleep apnea and told you need a CPAP or BiPAP machine, whether or not you use it?",
+       es:"¿Le han diagnosticado apnea del sueño y le dijeron que necesita una máquina CPAP o BiPAP, aunque no la use?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"anes", type:"yn",
+    q:{en:"Have you ever had a serious problem with anesthesia or sedation?", es:"¿Alguna vez ha tenido un problema serio con la anestesia o la sedación?"},
+    list:[
+      {en:"Trouble breathing or waking up afterward", es:"Dificultad para respirar o para despertar después"},
+      {en:"Being told you have a difficult airway (hard to place a breathing tube)", es:"Le dijeron que tiene una vía aérea difícil (difícil de intubar)"},
+      {en:"Malignant hyperthermia, in you or a blood relative", es:"Hipertermia maligna, en usted o en un familiar de sangre"},
+      {en:"A severe allergic reaction to an anesthesia medicine", es:"Una reacción alérgica grave a un medicamento de anestesia"}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"heart", type:"yn",
+    q:{en:"Other than high blood pressure or high cholesterol, have you ever had a heart condition?",
+       es:"Aparte de presión alta o colesterol alto, ¿alguna vez ha tenido una condición del corazón?"},
+    list:[
+      {en:"Heart attack", es:"Infarto (ataque al corazón)"},
+      {en:"Bypass surgery (CABG), a heart stent, or angioplasty", es:"Cirugía de bypass (CABG), stent en el corazón o angioplastia"},
+      {en:"Heart failure or a weak heart", es:"Insuficiencia cardíaca o corazón débil"},
+      {en:"Heart valve disease or a valve replacement", es:"Enfermedad de las válvulas del corazón o reemplazo de válvula"},
+      {en:"Irregular heartbeat, such as atrial fibrillation", es:"Latidos irregulares (arritmia), como fibrilación auricular"},
+      {en:"Pacemaker or defibrillator", es:"Marcapasos o desfibrilador"},
+      {en:"Chest pain from the heart (angina)", es:"Dolor de pecho de origen cardíaco (angina)"}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"bp", type:"yn",
+    q:{en:"Is your blood pressure often 160/100 or higher, or has your doctor said it is not under control?",
+       es:"¿Su presión arterial está a menudo en 160/100 o más, o su médico le ha dicho que no está controlada?"},
+    help:{en:"Well-controlled high blood pressure is fine.", es:"La presión alta bien controlada no es problema."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"neuro", type:"yn",
+    q:{en:"Have you ever had any of these?", es:"¿Alguna vez ha tenido alguno de estos?"},
+    list:[
+      {en:"Stroke or mini-stroke (TIA)", es:"Derrame cerebral o mini-derrame (TIA)"},
+      {en:"Seizures or epilepsy", es:"Convulsiones o epilepsia"},
+      {en:"Parkinson's disease or multiple sclerosis", es:"Enfermedad de Parkinson o esclerosis múltiple"},
+      {en:"Dementia or serious memory problems", es:"Demencia o problemas serios de memoria"}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"lung", type:"yn",
+    q:{en:"Do you have a lung condition that needs a daily inhaler or home oxygen?",
+       es:"¿Tiene una condición de los pulmones que requiere un inhalador diario u oxígeno en casa?"},
+    help:{en:"For example COPD, emphysema, asthma that needs daily treatment, or pulmonary hypertension.",
+          es:"Por ejemplo EPOC, enfisema, asma que requiere tratamiento diario o hipertensión pulmonar."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"kidliv", type:"yn",
+    q:{en:"Have you been told you have advanced kidney disease (stage 4 or 5), kidney failure, or need dialysis, or that you have liver cirrhosis?",
+       es:"¿Le han dicho que tiene enfermedad renal avanzada (etapa 4 o 5), insuficiencia renal o que necesita diálisis, o que tiene cirrosis del hígado?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"dm", type:"choice",
+    q:{en:"Do you have diabetes?", es:"¿Tiene diabetes?"},
+    options:[
+      {v:"none", l:{en:"No, I don't have diabetes", es:"No, no tengo diabetes"}},
+      {v:"pills", l:{en:"Yes. Diet or pills only, and well controlled (last A1c below 8%)", es:"Sí. Solo dieta o pastillas, y bien controlada (última A1c menor de 8%)"}},
+      {v:"insulin", l:{en:"Yes, and I use insulin", es:"Sí, y uso insulina"}},
+      {v:"poor", l:{en:"Yes, but it's not well controlled (A1c 8% or higher, or my doctor says it's not controlled)", es:"Sí, pero no está bien controlada (A1c de 8% o más, o mi médico dice que no está controlada)"}}],
+    rule:function(a){ return (a==="insulin" || a==="poor") ? "fail:visit" : null; } },
+
+  { id:"glp1", type:"yn",
+    q:{en:"Do you take a GLP-1 medicine for weight loss or diabetes (shot or pill)?", es:"¿Toma un medicamento GLP-1 para bajar de peso o para la diabetes (inyección o pastilla)?"},
+    list:[
+      {en:"Ozempic, Wegovy, or Rybelsus (semaglutide)", es:"Ozempic, Wegovy o Rybelsus (semaglutida)"},
+      {en:"Mounjaro or Zepbound (tirzepatide)", es:"Mounjaro o Zepbound (tirzepatida)"},
+      {en:"Trulicity, Victoza, Saxenda, Byetta, or Bydureon", es:"Trulicity, Victoza, Saxenda, Byetta o Bydureon"},
+      {en:"Compounded semaglutide or tirzepatide from a clinic or online pharmacy", es:"Semaglutida o tirzepatida compuesta de una clínica o farmacia en línea"}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"sglt2", type:"yn",
+    q:{en:"Do you take any of these pills (for diabetes, heart, or kidneys)?", es:"¿Toma alguna de estas pastillas (para diabetes, corazón o riñones)?"},
+    list:[
+      {en:"Jardiance, Farxiga, Invokana, Steglatro, Brenzavvy, or Inpefa", es:"Jardiance, Farxiga, Invokana, Steglatro, Brenzavvy o Inpefa"},
+      {en:"Combination pills: Synjardy, Xigduo, Invokamet, Glyxambi, Trijardy, Qtern, Segluromet, or Steglujan", es:"Pastillas combinadas: Synjardy, Xigduo, Invokamet, Glyxambi, Trijardy, Qtern, Segluromet o Steglujan"}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"thin", type:"yn",
+    q:{en:"Do you take any blood thinner or anti-platelet medicine?", es:"¿Toma algún anticoagulante o antiplaquetario (medicina para aguar la sangre)?"},
+    list:[
+      {en:"Warfarin (Coumadin, Jantoven)", es:"Warfarina (Coumadin, Jantoven)"},
+      {en:"Eliquis, Xarelto, Pradaxa, or Savaysa", es:"Eliquis, Xarelto, Pradaxa o Savaysa"},
+      {en:"Plavix (clopidogrel), Brilinta, or Effient", es:"Plavix (clopidogrel), Brilinta o Effient"},
+      {en:"Pletal (cilostazol) or Aggrenox", es:"Pletal (cilostazol) o Aggrenox"},
+      {en:"Lovenox or other blood-thinner shots", es:"Lovenox u otras inyecciones anticoagulantes"},
+      {en:"Aspirin stronger than 81 mg (for example 325 mg)", es:"Aspirina de más de 81 mg (por ejemplo 325 mg)"}],
+    help:{en:"Low-dose aspirin (81 mg) is OK. If that's the only one you take, answer No.",
+          es:"La aspirina de dosis baja (81 mg) está bien. Si es la única que toma, responda No."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"bleed", type:"yn",
+    q:{en:"Do you have a bleeding disorder, such as hemophilia or von Willebrand disease, or do you bleed or bruise unusually easily?",
+       es:"¿Tiene un trastorno de sangrado, como hemofilia o enfermedad de von Willebrand, o sangra o le salen moretones con demasiada facilidad?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"steroid", type:"yn",
+    q:{en:"In the last 3 months, have you taken steroid pills or had a steroid shot or IV?",
+       es:"En los últimos 3 meses, ¿ha tomado pastillas de esteroides o recibido esteroides inyectados o por vena?"},
+    help:{en:"For example prednisone, a Medrol Dosepak, or dexamethasone. Steroid inhalers, nasal sprays, creams, and joint injections don't count.",
+          es:"Por ejemplo prednisona, Medrol Dosepak o dexametasona. No cuentan los inhaladores, sprays nasales, cremas ni inyecciones en las articulaciones."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"opioid", type:"yn",
+    q:{en:"Do you take prescription pain medicine every day or almost every day?", es:"¿Toma medicina recetada para el dolor todos o casi todos los días?"},
+    help:{en:"For example oxycodone (Percocet), hydrocodone (Norco), tramadol, morphine, a fentanyl patch, methadone, or buprenorphine (Suboxone).",
+          es:"Por ejemplo oxicodona (Percocet), hidrocodona (Norco), tramadol, morfina, parche de fentanilo, metadona o buprenorfina (Suboxone)."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"immune", type:"yn",
+    q:{en:"Have you had an organ transplant, or are you receiving (or in the last 6 months received) chemotherapy, immunotherapy, or radiation for cancer?",
+       es:"¿Ha recibido un trasplante de órgano, o está recibiendo (o recibió en los últimos 6 meses) quimioterapia, inmunoterapia o radiación para el cáncer?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"hosp", type:"yn",
+    q:{en:"In the last 3 months, have you stayed in a hospital, been seen in an emergency room, or had surgery?",
+       es:"En los últimos 3 meses, ¿ha estado hospitalizado, ha ido a una sala de emergencias o ha tenido una cirugía?"},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"preg", type:"choice",
+    q:{en:"Are you pregnant, or is there any chance you could be pregnant?", es:"¿Está embarazada, o existe alguna posibilidad de que lo esté?"},
+    options:[
+      {v:"yes", l:YES},
+      {v:"no", l:{en:"No, or not applicable", es:"No, o no aplica"}}],
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"pcp", type:"yn",
+    q:{en:"Do you have a primary care doctor who has seen you (in person or by video) in the last 12 months?",
+       es:"¿Tiene un médico de cabecera (primario) que lo haya visto (en persona o por video) en los últimos 12 meses?"},
+    rule:function(a){ return a==="no" ? "fail:pcp" : null; } },
+
+  { id:"labs", type:"choice",
+    q:{en:"At that visit, or in blood work from the last 12 months, were you told you have anemia (low blood count), abnormal liver tests, or a kidney problem?",
+       es:"En esa consulta, o en análisis de sangre de los últimos 12 meses, ¿le dijeron que tiene anemia (conteo sanguíneo bajo), pruebas del hígado anormales o un problema de los riñones?"},
+    options:[
+      {v:"no", l:NO},
+      {v:"yes", l:YES},
+      {v:"unsure", l:{en:"I'm not sure", es:"No estoy seguro(a)"}}],
+    help:{en:"Either way, we'll need a copy of that blood work before your procedure is confirmed.",
+          es:"De cualquier forma, necesitaremos una copia de esos análisis antes de confirmar su procedimiento."},
+    rule:function(a){ return a==="yes" ? "fail:visit" : null; } },
+
+  { id:"driver", type:"yn",
+    q:{en:"Can a responsible adult drive you home after your procedure and stay with you the rest of the day?",
+       es:"¿Puede un adulto responsable llevarlo a casa después del procedimiento y quedarse con usted el resto del día?"},
+    help:{en:"A taxi, Uber, or Lyft alone is not allowed after sedation.", es:"No se permite irse solo en taxi, Uber o Lyft después de la sedación."},
+    rule:function(a){ return a==="no" ? "fail:driver" : null; } },
+
+  { id:"other", type:"multi",
+    q:{en:"Do any of these apply to you?", es:"¿Le aplica alguno de estos?"},
+    help:{en:"Check all that apply. None of these rule you out. They help us prepare you.",
+          es:"Marque todos los que apliquen. Ninguno lo descalifica. Nos ayudan a prepararlo."},
+    options:[
+      {v:"supp", l:{en:"I take fish oil, vitamin E, ginkgo, garlic, or turmeric supplements", es:"Tomo suplementos de aceite de pescado, vitamina E, ginkgo, ajo o cúrcuma"}},
+      {v:"iron", l:{en:"I take iron pills", es:"Tomo pastillas de hierro"}},
+      {v:"phen", l:{en:"I take phentermine or another weight-loss pill", es:"Tomo fentermina u otra pastilla para bajar de peso"}},
+      {v:"const", l:{en:"I'm constipated most weeks or use laxatives regularly", es:"Estoy estreñido(a) casi todas las semanas o uso laxantes con frecuencia"}},
+      {v:"prep", l:{en:"A previous colonoscopy prep didn't clean me out well", es:"Una preparación anterior de colonoscopia no me limpió bien"}},
+      {v:"snore", l:{en:"I snore loudly, or someone has seen me stop breathing in my sleep", es:"Ronco fuerte, o alguien me ha visto dejar de respirar mientras duermo"}},
+      {v:"thc", l:{en:"I use cannabis (marijuana) daily", es:"Uso cannabis (marihuana) a diario"}},
+      {v:"etoh", l:{en:"I usually have more than 2 alcoholic drinks a day", es:"Normalmente tomo más de 2 bebidas alcohólicas al día"}}],
+    rule:function(){ return null; } }
+];
+
+/* Notes shown on the pass screen, to tell the scheduler */
+var NOTES = [
+  {when:function(A){return A.famhx==="yes";}, t:{en:"Your family history: which relative, and their age at diagnosis.", es:"Sus antecedentes familiares: qué familiar y a qué edad fue diagnosticado."}},
+  {when:function(A){return A.dm==="pills";}, t:{en:"Your diabetes pills. You'll get instructions on when to hold them.", es:"Sus pastillas para la diabetes. Recibirá instrucciones sobre cuándo suspenderlas."}},
+  {when:function(A){return A.labs==="unsure";}, t:{en:"You weren't sure about your recent blood work. We'll get it from your primary care doctor.", es:"No estaba seguro(a) de sus análisis recientes. Los pediremos a su médico de cabecera."}},
+  {when:function(A){return has(A,"supp");}, t:{en:"Your supplements. These are usually stopped 7 days before.", es:"Sus suplementos. Normalmente se suspenden 7 días antes."}},
+  {when:function(A){return has(A,"iron");}, t:{en:"Your iron pills. These are stopped 7 days before.", es:"Sus pastillas de hierro. Se suspenden 7 días antes."}},
+  {when:function(A){return has(A,"phen");}, t:{en:"Your weight-loss pill. It may need to be stopped before sedation.", es:"Su pastilla para bajar de peso. Puede que haya que suspenderla antes de la sedación."}},
+  {when:function(A){return has(A,"const") || has(A,"prep");}, t:{en:"Constipation or a past prep that didn't work well. You may need a longer prep.", es:"Estreñimiento o una preparación anterior que no funcionó bien. Puede necesitar una preparación más larga."}},
+  {when:function(A){return has(A,"snore");}, t:{en:"Loud snoring or pauses in breathing while asleep. The anesthesia team needs to know.", es:"Ronquidos fuertes o pausas al respirar mientras duerme. El equipo de anestesia debe saberlo."}},
+  {when:function(A){return has(A,"thc") || has(A,"etoh");}, t:{en:"Daily cannabis or alcohol use. The anesthesia team needs to know, as it can change how much sedation you need.", es:"Uso diario de cannabis o alcohol. El equipo de anestesia debe saberlo, porque puede cambiar la cantidad de sedación que necesita."}}
+];
+function has(A, v){ return Array.isArray(A.other) && A.other.indexOf(v) > -1; }
+
+/* Fail messages */
+var FAIL = {
+  visit:{t:{en:"Let's start with an office visit", es:"Empecemos con una consulta en la oficina"},
+         p:{en:"Based on your answer, we'd like to see you in the office before we schedule your colonoscopy. This is not a diagnosis. It means part of your health history needs a doctor's review first, so your procedure and sedation can be planned safely.",
+            es:"Según su respuesta, preferimos verlo en la oficina antes de programar su colonoscopia. Esto no es un diagnóstico. Significa que parte de su historial de salud necesita la revisión de un médico primero, para planificar su procedimiento y la sedación de forma segura."}},
+  symptoms:{t:{en:"Your symptoms should be checked first", es:"Primero debemos evaluar sus síntomas"},
+         p:{en:"Symptoms like these mean you need a diagnostic evaluation, not a routine screening. Please book an office visit so your doctor can look into them properly.",
+            es:"Síntomas como estos requieren una evaluación diagnóstica, no un examen de rutina. Por favor haga una cita en la oficina para que su médico pueda evaluarlos bien."},
+         urgent:true},
+  prompt_bleed:{t:{en:"Let's get you seen promptly", es:"Vamos a verlo pronto"},
+         p:{en:"Bleeding from the rectum needs a prompt evaluation, not a routine screening. Email our practice manager, Monica Vega, and she will arrange a prompt appointment for you.",
+            es:"El sangrado por el recto necesita una evaluación pronta, no un examen de rutina. Escríbale a nuestra gerente, Monica Vega, y ella le coordinará una cita pronta."},
+         urgent:true, prompt:true},
+  prompt_stool:{t:{en:"Let's get you seen promptly", es:"Vamos a verlo pronto"},
+         p:{en:"A positive stool test needs a prompt follow-up colonoscopy planned with your doctor, not a routine screening. Email our practice manager, Monica Vega, and she will arrange a prompt appointment.",
+            es:"Una prueba de heces positiva necesita una colonoscopia de seguimiento planificada pronto con su médico, no un examen de rutina. Escríbale a nuestra gerente, Monica Vega, y ella le coordinará una cita pronta."},
+         prompt:true},
+  young:{t:{en:"You may not be due for screening yet", es:"Puede que todavía no le toque el examen"},
+         p:{en:"Routine screening usually starts at 45, or at 40 if a parent, sibling, or child had colon cancer or an advanced polyp. If you have symptoms or other concerns, an office visit is the right place to talk about them.",
+            es:"El examen de rutina normalmente empieza a los 45 años, o a los 40 si su padre, madre, hermano o hijo tuvo cáncer de colon o un pólipo avanzado. Si tiene síntomas u otras preocupaciones, lo indicado es una consulta en la oficina."}},
+  old:{t:{en:"Let's decide together at an office visit", es:"Decidamos juntos en una consulta"},
+         p:{en:"After 75, whether to screen depends on your overall health and past results. That's a decision we make together in the office.",
+            es:"Después de los 75 años, hacer o no el examen depende de su salud general y de resultados anteriores. Es una decisión que tomamos juntos en la oficina."}},
+  recent:{t:{en:"You may not be due yet", es:"Puede que todavía no le toque"},
+         p:{en:"Based on your last colonoscopy, it may be too early for another one. At an office visit, your doctor will review your last report and tell you when your next exam should be.",
+            es:"Según su última colonoscopia, puede ser muy pronto para otra. En una consulta, su médico revisará su último reporte y le dirá cuándo le toca el próximo examen."}},
+  pcp:{t:{en:"A recent primary care visit comes first", es:"Primero necesita una consulta reciente con su médico primario"},
+         p:{en:"Direct scheduling requires a primary care visit in the last 12 months. You can see your primary care doctor first and come back to this page, or book an office visit.",
+            es:"Para programar directamente se requiere una consulta con su médico de cabecera en los últimos 12 meses. Puede ver primero a su médico de cabecera y volver a esta página, o hacer una cita en la oficina."}},
+  insurance:{t:{en:"Let's check your coverage first", es:"Primero verifiquemos su cobertura"},
+         p:{en:"Direct scheduling is available only with the plans on the list, because they don't need a referral or prior authorization. Other plans, including HMO, Medicare Advantage, and Medicaid plans, usually need a referral or an office visit first. Call the office and we'll check your plan and tell you the next step.",
+            es:"La programación directa solo está disponible con los planes de la lista, porque no requieren referido ni autorización previa. Otros planes, incluyendo HMO, Medicare Advantage y Medicaid, normalmente requieren un referido o una consulta primero. Llame a la oficina y verificaremos su plan y le diremos el siguiente paso."}},
+  selfpay:{t:{en:"Let's talk about self-pay options", es:"Hablemos de opciones de pago propio"},
+         p:{en:"Direct scheduling is set up for patients using one of the listed insurance plans. If you don't have insurance, call the office and we'll explain self-pay pricing and how to schedule.",
+            es:"La programación directa es para pacientes con uno de los seguros de la lista. Si no tiene seguro, llame a la oficina y le explicaremos los precios de pago propio y cómo programar."}},
+  driver:{t:{en:"You'll need a ride home", es:"Necesitará quien lo lleve a casa"},
+         p:{en:"Because you receive sedation, an adult must take you home. Once you have someone who can drive you and stay with you, come back to this page. If you can't arrange a ride, book an office visit and we'll talk about options.",
+            es:"Como recibirá sedación, un adulto debe llevarlo a casa. Cuando tenga a alguien que pueda llevarlo y quedarse con usted, vuelva a esta página. Si no puede conseguirlo, haga una cita en la oficina y hablaremos de opciones."}}
+};
+
+/* ================= RENDER ================= */
+var root = document.getElementById("screen");
+function focusHeading(){ var h = root.querySelector("h1,h2"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); } window.scrollTo(0,0); }
+
+function render(){
+  document.documentElement.lang = S.lang;
+  document.querySelectorAll("[data-set]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-set")===S.lang)); });
+  var fn = {intro:vIntro, q:vQuestion, fail:vFail, attest:vAttest, pass:vPass}[S.view];
+  root.innerHTML = fn();
+  bind();
+  renderFooter();
+}
+
+function docBtn(d){
+  var sub = d.any ? T({en:"First available gastroenterologist", es:"El primer gastroenterólogo disponible"}) : gTitle(d)+' · '+esc(d.area);
+  return '<button type="button" class="docbtn" data-doc="'+d.id+'">'+av(d,56)+
+    '<span class="dtxt"><b>'+(d.any ? T({en:"No preference", es:"Sin preferencia"}) : esc(d.name))+'</b><span class="muted small">'+sub+'</span></span>'+
+    '<span class="chev" aria-hidden="true">›</span></button>';
+}
+
+function chosenRow(){
+  var d = D();
+  return '<div class="chosen"><div class="doc">'+av(d,40)+'<div><span class="muted small">'+T({en:"Your doctor", es:"Su médico"})+'</span><b>'+(d.any ? T({en:"First available", es:"El primero disponible"}) : esc(d.name))+'</b></div></div>'+
+    '<button type="button" class="linkbtn small" data-act="pick">'+T({en:"Change", es:"Cambiar"})+'</button></div>';
+}
+
+function vIntro(){
+  return ''+
+  '<div class="eyebrow">'+T({en:"Direct-access screening colonoscopy",es:"Colonoscopia preventiva con acceso directo"})+'</div>'+
+  '<h1>'+T({en:"Skip the office visit?",es:"¿Colonoscopia sin consulta previa?"})+'</h1>'+
+  '<p>'+T({en:"Healthy and due for colon cancer screening? Choose your GastroMED gastroenterologist, then answer a few questions to see if you can schedule your colonoscopy directly.",
+     es:"¿Está sano y le toca su colonoscopia preventiva? Escoja su gastroenterólogo de GastroMED y conteste unas preguntas para ver si puede programarla directamente."})+'</p>'+
+  '<p class="muted small">'+T({en:"About 3 minutes · Your answers stay on this phone",es:"Unos 3 minutos · Sus respuestas se quedan en este teléfono"})+'</p>'+
+  '<h2>'+T({en:"Choose your doctor to start",es:"Escoja su médico para comenzar"})+'</h2>'+
+  '<div class="pick">'+DOCTORS.map(function(d){ return docBtn(d); }).join('')+docBtn(ANY)+'</div>'+
+  '<div class="cols">'+
+    '<div class="card yes"><div class="eyebrow">'+T({en:"This is for",es:"Esto es para"})+'</div><ul>'+
+      '<li>'+T({en:"Adults 45 to 75 due for routine screening (40 and up with a family history)",es:"Adultos de 45 a 75 años que necesitan su examen de rutina (desde los 40 con antecedentes familiares)"})+'</li>'+
+      '<li>'+T({en:"People with no digestive symptoms",es:"Personas sin síntomas digestivos"})+'</li>'+
+      '<li>'+T({en:"Generally healthy people who see a primary care doctor",es:"Personas en general sanas que ven a un médico de cabecera"})+'</li>'+
+      '<li>'+T({en:"Patients with Original Medicare or one of our accepted PPO plans",es:"Pacientes con Medicare Original o uno de nuestros planes PPO aceptados"})+'</li></ul></div>'+
+    '<div class="card no"><div class="eyebrow">'+T({en:"This is not for",es:"Esto no es para"})+'</div><ul>'+
+      '<li>'+T({en:"Symptoms such as bleeding, pain, or changes in bowel habits",es:"Síntomas como sangrado, dolor o cambios en las evacuaciones"})+'</li>'+
+      '<li>'+T({en:"Follow-up after polyps, cancer, or colitis",es:"Seguimiento después de pólipos, cáncer o colitis"})+'</li>'+
+      '<li>'+T({en:"Emergencies. Call 911.",es:"Emergencias. Llame al 911."})+'</li></ul></div>'+
+  '</div>'+
+  '<div class="note info"><div class="eyebrow">'+T({en:"Private by design",es:"Privado por diseño"})+'</div>'+
+    '<p>'+T({en:"Your answers stay on this phone. They are never sent, saved, or seen by our office, and closing this page erases them. We only count anonymous visits, with no cookies.",
+            es:"Sus respuestas se quedan en este teléfono. Nunca se envían, se guardan ni las ve nuestra oficina, y al cerrar esta página se borran. Solo contamos visitas anónimas, sin cookies."})+'</p></div>'+
+  '<p class="muted small">'+T({en:"This questionnaire is general information, not medical advice. Completing it does not create a doctor–patient relationship. That relationship begins only when you are evaluated by a GastroMED physician or care team, in the office or at the endoscopy center.",
+     es:"Este cuestionario es información general, no un consejo médico. Completarlo no crea una relación médico-paciente. Esa relación comienza solamente cuando un médico o el equipo de GastroMED lo evalúa, en la oficina o en el centro de endoscopia."})+'</p>';
+}
+
+function vQuestion(){
+  var q = Q[S.qi], a = S.answers[q.id], n = S.qi+1, tot = Q.length;
+  var h = ''+
+  '<div class="qhead"><div class="eyebrow">'+T({en:"Question ",es:"Pregunta "})+n+T({en:" of ",es:" de "})+tot+'</div>'+
+  '<button type="button" class="linkbtn small" data-act="back">← '+T({en:"Back",es:"Atrás"})+'</button></div>'+
+  '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="'+tot+'" aria-valuenow="'+(n-1)+'"><i style="width:'+Math.round((n-1)/tot*100)+'%"></i></div>'+
+  (S.qi===0 ? chosenRow() : '')+
+  '<h2>'+T(q.q)+'</h2>';
+  if(q.list){ h += '<ul class="ex">'+q.list.map(function(x){return '<li>'+T(x)+'</li>';}).join('')+'</ul>'; }
+  if(q.help){ h += '<p class="muted">'+T(q.help)+'</p>'; }
+
+  if(q.type==="yn"){
+    h += '<div class="choices yn">'+
+      '<button type="button" class="choice" data-ans="yes" aria-pressed="'+(a==="yes")+'">'+T(YES)+'</button>'+
+      '<button type="button" class="choice" data-ans="no" aria-pressed="'+(a==="no")+'">'+T(NO)+'</button></div>';
+  } else if(q.type==="choice"){
+    h += '<div class="choices">'+q.options.map(function(o){
+      return '<button type="button" class="choice" data-ans="'+o.v+'" aria-pressed="'+(a===o.v)+'">'+T(o.l)+'</button>'; }).join('')+'</div>';
+  } else if(q.type==="multi"){
+    var sel = Array.isArray(a) ? a : [];
+    h += '<div class="choices">'+q.options.map(function(o){
+      return '<label class="check"><input type="checkbox" value="'+o.v+'"'+(sel.indexOf(o.v)>-1?' checked':'')+'><span>'+T(o.l)+'</span></label>'; }).join('')+'</div>'+
+      '<button type="button" class="btn block" data-act="multi">'+T({en:"Continue",es:"Continuar"})+'</button>';
+  } else if(q.type==="bmi"){
+    var b = S.bmi, us = S.units==="us";
+    var ftOpts = '<option value="">–</option>'; for(var f=4; f<=7; f++){ ftOpts += '<option value="'+f+'"'+(String(b.ft)===String(f)?' selected':'')+'>'+f+'</option>'; }
+    var inOpts = '<option value="">–</option>'; for(var i=0; i<=11; i++){ inOpts += '<option value="'+i+'"'+(String(b.inch)===String(i)?' selected':'')+'>'+i+'</option>'; }
+    h += '<div class="bmi">'+
+      '<div class="units seg" role="group" aria-label="'+T({en:"Units",es:"Unidades"})+'">'+
+        '<button type="button" data-units="us" aria-pressed="'+us+'">ft / lb</button>'+
+        '<button type="button" data-units="metric" aria-pressed="'+(!us)+'">cm / kg</button></div>'+
+      (us ?
+        '<div class="bmi-row">'+
+          '<label class="field">'+T({en:"Feet",es:"Pies"})+'<select id="b-ft">'+ftOpts+'</select></label>'+
+          '<label class="field">'+T({en:"Inches",es:"Pulgadas"})+'<select id="b-in">'+inOpts+'</select></label></div>'+
+        '<label class="field">'+T({en:"Weight (pounds)",es:"Peso (libras)"})+'<input id="b-lb" type="number" inputmode="decimal" min="70" max="700" value="'+esc(b.lb)+'" autocomplete="off"></label>'
+      :
+        '<div class="bmi-row">'+
+          '<label class="field">'+T({en:"Height (cm)",es:"Estatura (cm)"})+'<input id="b-cm" type="number" inputmode="decimal" min="120" max="230" value="'+esc(b.cm)+'" autocomplete="off"></label>'+
+          '<label class="field">'+T({en:"Weight (kg)",es:"Peso (kg)"})+'<input id="b-kg" type="number" inputmode="decimal" min="30" max="320" value="'+esc(b.kg)+'" autocomplete="off"></label></div>'
+      )+
+      '<p class="muted">'+T({en:"BMI: ",es:"IMC: "})+'<span class="bmi-out" id="b-out">–</span></p>'+
+      '<button type="button" class="btn block" data-act="bmi" id="b-go" disabled>'+T({en:"Continue",es:"Continuar"})+'</button></div>';
+  }
+  return h;
+}
+
+function vFail(){
+  var f = FAIL[S.failKey] || FAIL.visit;
+  var urgent = f.urgent || (S.failQ && S.failQ.urgent);
+  return ''+
+  '<div class="eyebrow">'+T({en:"Next step",es:"Siguiente paso"})+'</div>'+
+  '<h1>'+T(f.t)+'</h1>'+
+  '<p>'+T(f.p)+'</p>'+
+  (urgent ? '<div class="note stop"><div class="eyebrow">'+T({en:"Don't wait if it's severe",es:"No espere si es grave"})+'</div><p>'+
+     T({en:"Heavy bleeding, severe belly pain, fainting, or black stools with dizziness: go to the nearest emergency room or call 911.",es:"Sangrado abundante, dolor abdominal fuerte, desmayos o heces negras con mareo: vaya a la sala de emergencias más cercana o llame al 911."})+'</p></div>' : '')+
+  (f.prompt ? vPromptActions() :
+  '<div class="actions">'+
+    (D().any
+      ? '<a class="btn block" href="'+CONFIG.doctorsUrl+'" target="_blank" rel="noopener">'+T({en:"Choose a GastroMED doctor to book",es:"Escoja un médico de GastroMED para su cita"})+'</a>'
+      : '<a class="btn block" href="https://gastromedmiami.com/doctor/'+D().url+'/" target="_blank" rel="noopener">'+T({en:"Make an appointment with ",es:"Hacer una cita con "})+drT()+'</a>')+
+    '<a class="btn ghost block" href="tel:'+CONFIG.office.tel+'">'+T({en:"Call the office: ",es:"Llame a la oficina: "})+CONFIG.office.display+'</a>'+
+  '</div>')+
+  signoff(f.prompt ? {en:"Thank you for answering. Monica will help us see you quickly.", es:"Gracias por responder. Monica nos ayudará a verlo pronto."}
+                   : {en:"Thank you for taking the time to answer. We look forward to meeting you.", es:"Gracias por tomarse el tiempo de responder. Esperamos conocerlo pronto."})+
+  '<div class="minor small"><span class="muted">'+T({en:"Answered by mistake?",es:"¿Respondió por error?"})+'</span>'+
+    '<button type="button" class="linkbtn small" data-act="undo">'+T({en:"Go back to that question",es:"Volver a esa pregunta"})+'</button>'+
+    '<button type="button" class="linkbtn small" data-act="restart">'+T({en:"Start over",es:"Empezar de nuevo"})+'</button></div>';
+}
+
+function signoff(msg){
+  var d = D();
+  return '<div class="signoff">'+av(d,64)+
+    '<div><p>'+T(msg)+'</p><p class="muted small"><b>'+(d.any ? T({en:"Your GastroMED care team",es:"Su equipo de GastroMED"}) : esc(d.name))+'</b>'+(d.any ? '' : ' · '+gTitle(d)+', GastroMED')+'</p></div></div>';
+}
+
+function vPromptActions(){
+  var m = CONFIG.manager;
+  var subj = encodeURIComponent(T({en:"Prompt appointment request", es:"Solicitud de cita pronta"}) + " - " + (D().any ? "GastroMED" : drBare()));
+  return ''+
+  '<div class="card"><div class="eyebrow">'+T({en:"Practice manager",es:"Gerente de la práctica"})+'</div>'+
+    '<p><b>'+m.name+'</b></p>'+
+    '<p><a href="mailto:'+m.email+'?subject='+subj+'" class="phone">'+m.email+'</a></p>'+
+    '<p class="muted small">'+T({en:"In your email, include your full name and the best phone number to reach you. Please don't include detailed medical information; she will call you.",
+       es:"En su correo, incluya su nombre completo y el mejor teléfono para comunicarse con usted. Por favor no incluya información médica detallada; ella lo llamará."})+'</p></div>'+
+  '<div class="actions">'+
+    '<a class="btn block" href="mailto:'+m.email+'?subject='+subj+'">'+T({en:"Email Monica Vega",es:"Escribirle a Monica Vega"})+'</a>'+
+    '<a class="btn ghost block" href="tel:'+CONFIG.office.tel+'">'+T({en:"Or call the office: ",es:"O llame a la oficina: "})+CONFIG.office.display+'</a>'+
+  '</div>';
+}
+
+function vAttest(){
+  var d = D();
+  var rely = d.any ? T({en:"GastroMED and its physicians", es:"GastroMED y sus médicos"}) : T({en:"Dr. "+d.last+" and GastroMED", es:(d.f?"la Dra. ":"el Dr. ")+d.last+" y GastroMED"});
+  return ''+
+  '<div class="eyebrow">'+T({en:"Almost done",es:"Casi termina"})+'</div>'+
+  '<h1>'+T({en:"Please confirm before you continue",es:"Por favor confirme antes de continuar"})+'</h1>'+
+  '<div class="card attest">'+
+    '<p>'+T({en:"I confirm my answers are true and complete to the best of my knowledge. I understand that "+rely+" will rely on them to decide whether I can safely skip an office visit before my screening colonoscopy, and I accept responsibility for the accuracy of the information I provide. Leaving out information or giving inaccurate information may put me at risk of complications, may lead to my procedure being cancelled or rescheduled, and may affect my insurance coverage.",
+       es:"Confirmo que mis respuestas son verdaderas y completas según mi leal saber y entender. Entiendo que "+rely+" se basarán en ellas para decidir si puedo, de forma segura, omitir la consulta en la oficina antes de mi colonoscopia preventiva, y acepto la responsabilidad por la exactitud de la información que proporciono. Omitir información o dar información incorrecta puede ponerme en riesgo de complicaciones, puede causar que mi procedimiento sea cancelado o reprogramado, y puede afectar la cobertura de mi seguro."})+'</p>'+
+    '<p>'+T({en:"I understand that completing this questionnaire does not create a doctor–patient relationship and does not guarantee a procedure. A doctor–patient relationship with "+drT()+" begins only when I am evaluated by the doctor or the GastroMED team, in the office or at the endoscopy center. After reviewing my answers and records, the GastroMED team may still require an office visit.",
+       es:"Entiendo que completar este cuestionario no crea una relación médico-paciente y no garantiza un procedimiento. La relación médico-paciente con "+drT()+" comienza solamente cuando el médico o el equipo de GastroMED me evalúan, en la oficina o en el centro de endoscopia. Después de revisar mis respuestas y mi historial médico, el equipo de GastroMED aún puede requerir una consulta en la oficina."})+'</p>'+
+  '</div>'+
+  '<label class="check"><input type="checkbox" id="att"'+(S.attested?' checked':'')+'><span><b>'+T({en:"I have read and agree to the statements above.",es:"He leído y acepto lo anterior."})+'</b></span></label>'+
+  '<button type="button" class="btn block" data-act="attest" id="att-go"'+(S.attested?'':' disabled')+'>'+T({en:"Show my scheduling line",es:"Ver mi línea para programar"})+'</button>'+
+  '<button type="button" class="linkbtn small" data-act="back">← '+T({en:"Back to the questions",es:"Volver a las preguntas"})+'</button>';
+}
+
+function vPass(){
+  var A = S.answers;
+  var notes = NOTES.filter(function(n){ return n.when(A); });
+  var line = CONFIG.line.display
+    ? '<a class="phonebig" href="tel:'+CONFIG.line.tel+'">'+CONFIG.line.display+'</a><p class="muted small">'+T(CONFIG.lineHours)+'</p>'
+    : '<div class="placeholder">'+T({en:"Direct scheduling line: coming soon",es:"Línea directa para programar: próximamente"})+'</div>';
+  return ''+
+  '<div class="eyebrow">'+T({en:"You may qualify",es:"Es posible que califique"})+'</div>'+
+  '<h1>'+T({en:"Call and leave a voicemail to schedule your screening colonoscopy",es:"Llame y deje un mensaje de voz para programar su colonoscopia preventiva"})+'</h1>'+
+  '<p class="muted">'+T({en:"Based on your answers, you may be able to schedule without an office visit first. This line goes to voicemail and is only for direct-access screening colonoscopy. GastroMED's scheduling team will call you back to schedule.",
+     es:"Según sus respuestas, es posible que pueda programar sin una consulta previa. Esta línea va a un buzón de voz y es solo para colonoscopias preventivas con acceso directo. El equipo de citas de GastroMED le devolverá la llamada para programar."})+'</p>'+
+  '<div class="card">'+line+'</div>'+
+  (notes.length ? '<div class="note warn"><div class="eyebrow">'+T({en:"When we call you back, tell the scheduler about",es:"Cuando le devolvamos la llamada, informe a quien le programe sobre"})+'</div><ul>'+
+     notes.map(function(n){return '<li>'+T(n.t)+'</li>';}).join('')+'</ul></div>' : '')+
+  '<div class="card"><div class="eyebrow">'+T({en:"In your voicemail, say",es:"En su mensaje de voz, diga"})+'</div><ul>'+
+    '<li>'+(D().any ? T({en:"That you're calling for a direct-access screening colonoscopy with the first available doctor",es:"Que llama para una colonoscopia preventiva con acceso directo con el primer médico disponible"}) : T({en:"That you're calling for a direct-access screening colonoscopy with ",es:"Que llama para una colonoscopia preventiva con acceso directo con "})+'<b>'+drT()+'</b>')+'</li>'+
+    '<li>'+T({en:"Your full name, and spell your last name",es:"Su nombre completo, y deletree su apellido"})+'</li>'+
+    '<li>'+T({en:"Your date of birth",es:"Su fecha de nacimiento"})+'</li>'+
+    '<li>'+T({en:"The best phone number to call you back, said slowly",es:"El mejor teléfono para devolverle la llamada, dicho despacio"})+'</li>'+
+    '<li>'+T({en:"Your insurance company",es:"Su compañía de seguro"})+'</li></ul>'+
+    '<p class="muted small">'+T({en:"No need to leave medical details. We'll go over everything when we call you back.",es:"No necesita dejar detalles médicos. Lo repasaremos todo cuando le devolvamos la llamada."})+'</p></div>'+
+  '<div class="card"><div class="eyebrow">'+T({en:"Have ready for our call back",es:"Tenga a mano para cuando le llamemos"})+'</div><ul>'+
+    '<li>'+T({en:"Your primary care doctor's name and phone number",es:"El nombre y teléfono de su médico de cabecera"})+'</li>'+
+    '<li>'+T({en:"Your insurance card",es:"Su tarjeta del seguro"})+'</li>'+
+    '<li>'+T({en:"A list of all your medicines and supplements, with doses",es:"Una lista de todos sus medicamentos y suplementos, con las dosis"})+'</li>'+
+    '<li>'+T({en:"The date and place of any previous colonoscopy",es:"La fecha y el lugar de cualquier colonoscopia anterior"})+'</li></ul></div>'+
+  '<h2>'+T({en:"What happens next",es:"Qué sigue"})+'</h2>'+
+  '<ol class="steps">'+
+    '<li><p>'+T({en:"Our scheduling team calls you back, goes over your answers with you again, and records your confirmation.",es:"Nuestro equipo de citas le devuelve la llamada, repasa sus respuestas con usted y registra su confirmación."})+'</p></li>'+
+    '<li><p>'+T({en:"We get your most recent primary care visit note and blood work (CBC and metabolic panel) from the last 12 months. Your procedure is confirmed only after the GastroMED team reviews them.",es:"Obtenemos la nota de su última consulta con su médico de cabecera y sus análisis de sangre (hemograma y panel metabólico) de los últimos 12 meses. Su procedimiento se confirma solo después de que el equipo de GastroMED los revise."})+'</p></li>'+
+    '<li><p>'+T({en:"You receive your prep instructions and your endoscopy center. If anything needs a closer look, we'll book an office visit instead.",es:"Recibe sus instrucciones de preparación y su centro de endoscopia. Si algo necesita más evaluación, le haremos una cita en la oficina."})+'</p></li>'+
+    '<li><p>'+T({en:"On procedure day, you'll meet "+drT()+" and your anesthesia provider before anything is done.",es:"El día del procedimiento conocerá "+drA()+" y a su proveedor de anestesia antes de empezar."})+'</p></li>'+
+  '</ol>'+
+  '<div class="note info"><div class="eyebrow">'+T({en:"About cost",es:"Sobre el costo"})+'</div><p>'+
+    T({en:"Screening colonoscopy is usually covered as preventive care. If a polyp is removed or a biopsy is taken, some plans, including Medicare, may charge a copay or coinsurance. Check with your insurance.",
+       es:"La colonoscopia preventiva normalmente está cubierta como cuidado preventivo. Si se remueve un pólipo o se toma una biopsia, algunos planes, incluyendo Medicare, pueden cobrar un copago o coaseguro. Consulte con su seguro."})+'</p></div>'+
+  signoff({en:"Thank you for taking care of your health. We look forward to seeing you.", es:"Gracias por cuidar su salud. Esperamos verlo pronto."})+
+  '<a class="btn ghost block" href="'+CONFIG.prepGuideUrl+'" target="_blank" rel="noopener">'+T({en:"See how to prepare for your colonoscopy",es:"Vea cómo prepararse para su colonoscopia"})+'</a>'+
+  '<button type="button" class="linkbtn small" data-act="restart">'+T({en:"Start over",es:"Empezar de nuevo"})+'</button>';
+}
+
+function renderFooter(){
+  document.getElementById("foot").innerHTML =
+    '<p><b>GastroMED Miami</b> · <a href="https://gastromedmiami.com/" target="_blank" rel="noopener">gastromedmiami.com</a> · <span class="phone">'+CONFIG.office.display+'</span></p>'+
+    '<p>'+T({en:"General information for prospective GastroMED patients. It is not medical advice and does not replace an evaluation by a physician. For emergencies, call 911.",
+            es:"Información general para posibles pacientes de GastroMED. No es un consejo médico y no reemplaza la evaluación de un médico. En caso de emergencia, llame al 911."})+'</p>'+
+    '<p><a href="'+CONFIG.prepGuideUrl+'" target="_blank" rel="noopener">'+T({en:"Colonoscopy preparation instructions",es:"Instrucciones de preparación para colonoscopia"})+'</a></p>';
+}
+
+/* ================= FLOW ================= */
+function answer(val){
+  var q = Q[S.qi];
+  S.answers[q.id] = val;
+  var r = q.rule(q.type==="bmi" ? S.answers.bmiValue : val, S.answers);
+  if(r && r.indexOf("fail:")===0){ S.failKey = r.slice(5); S.failQ = q; S.view = "fail"; track((FAIL[S.failKey]||{}).prompt ? "routed-monica" : "routed-office"); render(); focusHeading(); return; }
+  if(S.qi < Q.length-1){ S.qi++; S.view="q"; } else { S.view = "attest"; }
+  render(); focusHeading();
+}
+
+function bmiCalc(){
+  var b = S.bmi, v = null;
+  if(S.units==="us"){
+    var ft = parseInt(b.ft,10), inch = parseInt(b.inch,10), lb = parseFloat(b.lb);
+    var tin = ft*12 + (isNaN(inch)?0:inch);
+    if(!isNaN(ft) && lb>=70 && lb<=700 && tin>=48 && tin<=90) v = 703*lb/(tin*tin);
+  } else {
+    var cm = parseFloat(b.cm), kg = parseFloat(b.kg);
+    if(cm>=120 && cm<=230 && kg>=30 && kg<=320) v = kg/((cm/100)*(cm/100));
+  }
+  return v;
+}
+function bmiUpdate(){
+  var v = bmiCalc(), out = document.getElementById("b-out"), go = document.getElementById("b-go");
+  if(out) out.textContent = v ? v.toFixed(1) : "–";
+  if(go) go.disabled = !v;
+}
+
+function bind(){
+  root.querySelectorAll("[data-ans]").forEach(function(b){ b.addEventListener("click", function(){ answer(b.getAttribute("data-ans")); }); });
+  root.querySelectorAll("[data-act]").forEach(function(b){ b.addEventListener("click", function(){ act(b.getAttribute("data-act")); }); });
+  root.querySelectorAll("[data-doc]").forEach(function(b){ b.addEventListener("click", function(){ pickDoc(b.getAttribute("data-doc")); }); });
+  root.querySelectorAll("[data-units]").forEach(function(b){ b.addEventListener("click", function(){ S.units = b.getAttribute("data-units"); render(); }); });
+  var map = {"b-ft":"ft","b-in":"inch","b-lb":"lb","b-cm":"cm","b-kg":"kg"};
+  Object.keys(map).forEach(function(id){ var el = document.getElementById(id); if(el){ ["input","change"].forEach(function(ev){ el.addEventListener(ev, function(){ S.bmi[map[id]] = el.value; bmiUpdate(); }); }); } });
+  if(document.getElementById("b-out")) bmiUpdate();
+  var att = document.getElementById("att");
+  if(att){ att.addEventListener("change", function(){ S.attested = att.checked; document.getElementById("att-go").disabled = !att.checked; }); }
+}
+
+function act(a){
+  if(a==="start"){ S.view="q"; S.qi=0; track("started"); }
+  else if(a==="back"){ if(S.view==="attest"){ S.view="q"; S.qi=Q.length-1; } else if(S.qi>0){ S.qi--; } else { S.view="intro"; } }
+  else if(a==="undo"){ S.view="q"; }
+  else if(a==="pick"){ S.view="intro"; }
+  else if(a==="restart"){ S.view="intro"; S.doc=null; S.qi=0; S.answers={}; S.failKey=null; S.failQ=null; S.attested=false; S.bmi={ft:"",inch:"",lb:"",cm:"",kg:""}; }
+  else if(a==="multi"){ var sel=[]; root.querySelectorAll('.check input:checked').forEach(function(c){ sel.push(c.value); }); answer(sel); return; }
+  else if(a==="bmi"){ var v = bmiCalc(); if(!v) return; S.answers.bmiValue = v; answer(Math.round(v*10)/10); return; }
+  else if(a==="attest"){ if(!S.attested) return; S.view="pass"; track("qualified"); }
+  render(); focusHeading();
+}
+
+/* Language: #es / #en in the link, else phone language. Nothing is stored. */
+var h = (location.hash||"").replace("#","");
+S.lang = h==="es" ? "es" : h==="en" ? "en" : ((navigator.language||"").toLowerCase().indexOf("es")===0 ? "es" : "en");
+document.querySelectorAll("[data-set]").forEach(function(b){ b.addEventListener("click", function(){ S.lang = b.getAttribute("data-set"); render(); }); });
+render();
+})();
+</script>
+</body>
+</html>
