@@ -177,20 +177,20 @@ var CONFIG = {
    Photos load from the practice website; if one fails, the initials show instead. */
 var IMG = "https://gastromedmiami.com/wp-content/uploads/";
 var DOCTORS = [
-  {id:"andrade", name:"Christian M. Andrade, MD", last:"Andrade", ini:"CA", area:"Coral Gables", img:"2024/09/4-Dr.-Andrade-150x150.jpg", url:"christian-andrade-md"},
-  {id:"carrion", name:"Andres F. Carrion, MD", last:"Carrion", ini:"AC", area:"Homestead", img:"2026/02/10-Dr-Carrion-150x150.jpg", url:"andres-f-carrion-md"},
-  {id:"chawla", name:"Karan Chawla, MD", last:"Chawla", ini:"KC", area:"West Kendall · Homestead", img:"2026/02/Dr.-Chawla-150x150.jpg", url:"karan-chawla-md"},
-  {id:"diaz", name:"Carlos R. Diaz, MD", last:"Diaz", ini:"CD", area:"Palmetto Bay", img:"2026/02/Carlos-Diaz-MD--150x150.png", url:"carlos-r-diaz-md"},
-  {id:"flikshteyn", name:"Ben Flikshteyn, MD", last:"Flikshteyn", ini:"BF", area:"Miami Lakes", img:"2026/02/Dr.-Flikshteyn-150x150.jpg", url:"ben-flikshteyn-md"},
-  {id:"garib", name:"Onix C. Garib Alpizar, MD", last:"Garib", ini:"OG", area:"Homestead", img:"2026/02/16.-Dr.-Garib-150x150.jpg", url:"onix-c-garib-alpizar-md"},
-  {id:"marin", name:"Cristina Marin, MD", last:"Marin", f:1, ini:"CM", area:"Sunset", img:"2026/02/5-Dr.Marin_-150x150.jpg", url:"cristina-marin-md"},
-  {id:"rodriguez", name:"Andres Rodriguez, DO", last:"Rodriguez", ini:"AR", area:"Doral", img:"2026/06/image-22-150x150.png", url:"andres-rodriguez-do"},
-  {id:"souto", name:"Enrico O. Souto, MD", last:"Souto", ini:"ES", area:"Sunset", img:"2026/02/11-Dr.-Souto-150x150.jpg", url:"enrico-o-souto-md"},
-  {id:"suarez", name:"Jorge Suarez, MD", last:"Suarez", ini:"JS", area:"Doral", img:"2026/02/6-Dr.-Suarez-150x150.jpg", url:"jorge-suarez-md"},
-  {id:"valladares", name:"Michael Valladares, DO", last:"Valladares", ini:"MV", area:"West Kendall", img:"2026/02/7-Dr-Valladares-150x150.jpg", url:"michael-valladares-do"},
-  {id:"vazquez", name:"Raul Vazquez, MD", last:"Vazquez", ini:"RV", area:"Palmetto Bay · Miami Lakes", img:"2026/06/19-Dr.-Vazquez-Reyes-150x150.png", url:"raul-vazquez-md"},
-  {id:"veloso", name:"Alexander Veloso, MD", last:"Alexander Veloso", ini:"AV", area:"Coral Gables", img:"2024/09/3-Dr.-Alexander-Veloso-150x150.jpg", url:"alexander-veloso-md"},
-  {id:"zamora", name:"Ernesto Zamora, MD", last:"Zamora", ini:"EZ", area:"Palmetto Bay · Homestead", img:"2026/02/Dr.-Zamora-150x150.jpg", url:"ernesto-zamora-md"}
+  {id:"andrade", name:"Christian M. Andrade, MD", list:"Andrade, Christian M., MD", last:"Andrade", ini:"CA", area:"Coral Gables", img:"2024/09/4-Dr.-Andrade-150x150.jpg", url:"christian-andrade-md"},
+  {id:"carrion", name:"Andres F. Carrion, MD", list:"Carrion, Andres F., MD", last:"Carrion", ini:"AC", area:"Homestead", img:"2026/02/10-Dr-Carrion-150x150.jpg", url:"andres-f-carrion-md"},
+  {id:"chawla", name:"Karan Chawla, MD", list:"Chawla, Karan, MD", last:"Chawla", ini:"KC", area:"West Kendall · Homestead", img:"2026/02/Dr.-Chawla-150x150.jpg", url:"karan-chawla-md"},
+  {id:"diaz", name:"Carlos R. Diaz, MD", list:"Diaz, Carlos R., MD", last:"Diaz", ini:"CD", area:"Palmetto Bay", img:"2026/02/Carlos-Diaz-MD--150x150.png", url:"carlos-r-diaz-md"},
+  {id:"flikshteyn", name:"Ben Flikshteyn, MD", list:"Flikshteyn, Ben, MD", last:"Flikshteyn", ini:"BF", area:"Miami Lakes", img:"2026/02/Dr.-Flikshteyn-150x150.jpg", url:"ben-flikshteyn-md"},
+  {id:"garib", name:"Onix C. Garib Alpizar, MD", list:"Garib Alpizar, Onix C., MD", last:"Garib", ini:"OG", area:"Homestead", img:"2026/02/16.-Dr.-Garib-150x150.jpg", url:"onix-c-garib-alpizar-md"},
+  {id:"marin", name:"Cristina Marin, MD", list:"Marin, Cristina, MD", last:"Marin", f:1, ini:"CM", area:"Sunset", img:"2026/02/5-Dr.Marin_-150x150.jpg", url:"cristina-marin-md"},
+  {id:"rodriguez", name:"Andres Rodriguez, DO", list:"Rodriguez, Andres, DO", last:"Rodriguez", ini:"AR", area:"Doral", img:"2026/06/image-22-150x150.png", url:"andres-rodriguez-do"},
+  {id:"souto", name:"Enrico O. Souto, MD", list:"Souto, Enrico O., MD", last:"Souto", ini:"ES", area:"Sunset", img:"2026/02/11-Dr.-Souto-150x150.jpg", url:"enrico-o-souto-md"},
+  {id:"suarez", name:"Jorge Suarez, MD", list:"Suarez, Jorge, MD", last:"Suarez", ini:"JS", area:"Doral", img:"2026/02/6-Dr.-Suarez-150x150.jpg", url:"jorge-suarez-md"},
+  {id:"valladares", name:"Michael Valladares, DO", list:"Valladares, Michael, DO", last:"Valladares", ini:"MV", area:"West Kendall", img:"2026/02/7-Dr-Valladares-150x150.jpg", url:"michael-valladares-do"},
+  {id:"vazquez", name:"Raul Vazquez, MD", list:"Vazquez, Raul, MD", last:"Vazquez", ini:"RV", area:"Palmetto Bay · Miami Lakes", img:"2026/06/19-Dr.-Vazquez-Reyes-150x150.png", url:"raul-vazquez-md"},
+  {id:"veloso", name:"Alexander Veloso, MD", list:"Veloso, Alexander, MD", last:"Alexander Veloso", ini:"AV", area:"Coral Gables", img:"2024/09/3-Dr.-Alexander-Veloso-150x150.jpg", url:"alexander-veloso-md"},
+  {id:"zamora", name:"Ernesto Zamora, MD", list:"Zamora, Ernesto, MD", last:"Zamora", ini:"EZ", area:"Palmetto Bay · Homestead", img:"2026/02/Dr.-Zamora-150x150.jpg", url:"ernesto-zamora-md"}
 ];
 var ANY = { id:"any", any:true };
 function docById(id){ for(var i=0;i<DOCTORS.length;i++){ if(DOCTORS[i].id===id) return DOCTORS[i]; } return null; }
@@ -541,9 +541,9 @@ function render(){
 }
 
 function docBtn(d){
-  var sub = d.any ? T({en:"First available gastroenterologist", es:"El primer gastroenterólogo disponible"}) : gTitle(d)+' · '+esc(d.area);
+  var sub = d.any ? T({en:"No preference", es:"Sin preferencia"}) : gTitle(d)+' · '+esc(d.area);
   return '<button type="button" class="docbtn" data-doc="'+d.id+'">'+av(d,56)+
-    '<span class="dtxt"><b>'+(d.any ? T({en:"No preference", es:"Sin preferencia"}) : esc(d.name))+'</b><span class="muted small">'+sub+'</span></span>'+
+    '<span class="dtxt"><b>'+(d.any ? T({en:"First available doctor", es:"El primer médico disponible"}) : esc(d.list))+'</b><span class="muted small">'+sub+'</span></span>'+
     '<span class="chev" aria-hidden="true">›</span></button>';
 }
 
@@ -561,7 +561,7 @@ function vIntro(){
      es:"¿Está sano y le toca su colonoscopia preventiva? Escoja su gastroenterólogo de GastroMED y conteste unas preguntas para ver si puede programarla directamente."})+'</p>'+
   '<p class="muted small">'+T({en:"About 3 minutes · Your answers stay on this phone",es:"Unos 3 minutos · Sus respuestas se quedan en este teléfono"})+'</p>'+
   '<h2>'+T({en:"Choose your doctor to start",es:"Escoja su médico para comenzar"})+'</h2>'+
-  '<div class="pick">'+DOCTORS.map(function(d){ return docBtn(d); }).join('')+docBtn(ANY)+'</div>'+
+  '<div class="pick">'+docBtn(ANY)+DOCTORS.map(function(d){ return docBtn(d); }).join('')+'</div>'+
   '<div class="cols">'+
     '<div class="card yes"><div class="eyebrow">'+T({en:"This is for",es:"Esto es para"})+'</div><ul>'+
       '<li>'+T({en:"Adults 45 to 75 due for routine screening (40 and up with a family history)",es:"Adultos de 45 a 75 años que necesitan su examen de rutina (desde los 40 con antecedentes familiares)"})+'</li>'+
