@@ -120,7 +120,8 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:v
 .docbtn b{font-size:1.04rem;line-height:1.3}
 .docbtn .chev{margin-left:auto;padding-left:6px;color:var(--accent);font-size:1.6rem;line-height:1;flex:none}
 .av{position:relative;flex:none;display:grid;place-items:center;border-radius:50%;overflow:hidden;background:var(--accent-soft);color:var(--accent);font-weight:700;letter-spacing:.02em;border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line)}
-.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;border-radius:0;box-shadow:none;background:none}
+.av.ph{background:#ebebeb;color:#0b6e75}
+.av img{position:absolute;left:0;top:0;width:100%;height:auto;border:0;border-radius:0;box-shadow:none;background:none}
 .av svg{width:56%;height:56%}
 .chosen{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
 .doc .muted{display:block}
@@ -174,23 +175,24 @@ var CONFIG = {
 };
 
 /* GastroMED gastroenterologists, from gastromedmiami.com/physicians (Nov 2026).
-   Photos load from the practice website; if one fails, the initials show instead. */
+   Photos load from the practice website (portrait size; "y" shifts each one so the head clears the top of the circle).
+   If a photo fails, the initials show instead. */
 var IMG = "https://gastromedmiami.com/wp-content/uploads/";
 var DOCTORS = [
-  {id:"andrade", name:"Christian M. Andrade, MD", list:"Andrade, Christian M., MD", last:"Andrade", ini:"CA", area:"Coral Gables", img:"2024/09/4-Dr.-Andrade-150x150.jpg", url:"christian-andrade-md"},
-  {id:"carrion", name:"Andres F. Carrion, MD", list:"Carrion, Andres F., MD", last:"Carrion", ini:"AC", area:"Homestead", img:"2026/02/10-Dr-Carrion-150x150.jpg", url:"andres-f-carrion-md"},
-  {id:"chawla", name:"Karan Chawla, MD", list:"Chawla, Karan, MD", last:"Chawla", ini:"KC", area:"West Kendall · Homestead", img:"2026/02/Dr.-Chawla-150x150.jpg", url:"karan-chawla-md"},
-  {id:"diaz", name:"Carlos R. Diaz, MD", list:"Diaz, Carlos R., MD", last:"Diaz", ini:"CD", area:"Palmetto Bay", img:"2026/02/Carlos-Diaz-MD--150x150.png", url:"carlos-r-diaz-md"},
-  {id:"flikshteyn", name:"Ben Flikshteyn, MD", list:"Flikshteyn, Ben, MD", last:"Flikshteyn", ini:"BF", area:"Miami Lakes", img:"2026/02/Dr.-Flikshteyn-150x150.jpg", url:"ben-flikshteyn-md"},
-  {id:"garib", name:"Onix C. Garib Alpizar, MD", list:"Garib Alpizar, Onix C., MD", last:"Garib", ini:"OG", area:"Homestead", img:"2026/02/16.-Dr.-Garib-150x150.jpg", url:"onix-c-garib-alpizar-md"},
-  {id:"marin", name:"Cristina Marin, MD", list:"Marin, Cristina, MD", last:"Marin", f:1, ini:"CM", area:"Sunset", img:"2026/02/5-Dr.Marin_-150x150.jpg", url:"cristina-marin-md"},
-  {id:"rodriguez", name:"Andres Rodriguez, DO", list:"Rodriguez, Andres, DO", last:"Rodriguez", ini:"AR", area:"Doral", img:"2026/06/image-22-150x150.png", url:"andres-rodriguez-do"},
-  {id:"souto", name:"Enrico O. Souto, MD", list:"Souto, Enrico O., MD", last:"Souto", ini:"ES", area:"Sunset", img:"2026/02/11-Dr.-Souto-150x150.jpg", url:"enrico-o-souto-md"},
-  {id:"suarez", name:"Jorge Suarez, MD", list:"Suarez, Jorge, MD", last:"Suarez", ini:"JS", area:"Doral", img:"2026/02/6-Dr.-Suarez-150x150.jpg", url:"jorge-suarez-md"},
-  {id:"valladares", name:"Michael Valladares, DO", list:"Valladares, Michael, DO", last:"Valladares", ini:"MV", area:"West Kendall", img:"2026/02/7-Dr-Valladares-150x150.jpg", url:"michael-valladares-do"},
-  {id:"vazquez", name:"Raul Vazquez, MD", list:"Vazquez, Raul, MD", last:"Vazquez", ini:"RV", area:"Palmetto Bay · Miami Lakes", img:"2026/06/19-Dr.-Vazquez-Reyes-150x150.png", url:"raul-vazquez-md"},
-  {id:"veloso", name:"Alexander Veloso, MD", list:"Veloso, Alexander, MD", last:"Alexander Veloso", ini:"AV", area:"Coral Gables", img:"2024/09/3-Dr.-Alexander-Veloso-150x150.jpg", url:"alexander-veloso-md"},
-  {id:"zamora", name:"Ernesto Zamora, MD", list:"Zamora, Ernesto, MD", last:"Zamora", ini:"EZ", area:"Palmetto Bay · Homestead", img:"2026/02/Dr.-Zamora-150x150.jpg", url:"ernesto-zamora-md"}
+  {id:"andrade", name:"Christian M. Andrade, MD", list:"Andrade, Christian M., MD", last:"Andrade", ini:"CA", area:"Coral Gables", img:"2024/09/4-Dr.-Andrade-240x300.jpg", y:0.6, url:"christian-andrade-md"},
+  {id:"carrion", name:"Andres F. Carrion, MD", list:"Carrion, Andres F., MD", last:"Carrion", ini:"AC", area:"Homestead", img:"2026/02/10-Dr-Carrion-240x300.jpg", y:1.9, url:"andres-f-carrion-md"},
+  {id:"chawla", name:"Karan Chawla, MD", list:"Chawla, Karan, MD", last:"Chawla", ini:"KC", area:"West Kendall · Homestead", img:"2026/02/Dr.-Chawla-240x300.jpg", y:6.9, url:"karan-chawla-md"},
+  {id:"diaz", name:"Carlos R. Diaz, MD", list:"Diaz, Carlos R., MD", last:"Diaz", ini:"CD", area:"Palmetto Bay", img:"2026/02/Carlos-Diaz-MD--237x300.png", y:6.5, url:"carlos-r-diaz-md"},
+  {id:"flikshteyn", name:"Ben Flikshteyn, MD", list:"Flikshteyn, Ben, MD", last:"Flikshteyn", ini:"BF", area:"Miami Lakes", img:"2026/02/Dr.-Flikshteyn-240x300.jpg", y:1.9, url:"ben-flikshteyn-md"},
+  {id:"garib", name:"Onix C. Garib Alpizar, MD", list:"Garib Alpizar, Onix C., MD", last:"Garib", ini:"OG", area:"Homestead", img:"2026/02/16.-Dr.-Garib-240x300.jpg", y:1.9, url:"onix-c-garib-alpizar-md"},
+  {id:"marin", name:"Cristina Marin, MD", list:"Marin, Cristina, MD", last:"Marin", f:1, ini:"CM", area:"Sunset", img:"2026/02/5-Dr.Marin_-240x300.jpg", y:0.3, url:"cristina-marin-md"},
+  {id:"rodriguez", name:"Andres Rodriguez, DO", list:"Rodriguez, Andres, DO", last:"Rodriguez", ini:"AR", area:"Doral", img:"2026/06/image-22-241x300.png", y:1.9, url:"andres-rodriguez-do"},
+  {id:"souto", name:"Enrico O. Souto, MD", list:"Souto, Enrico O., MD", last:"Souto", ini:"ES", area:"Sunset", img:"2026/02/11-Dr.-Souto-240x300.jpg", y:0.6, url:"enrico-o-souto-md"},
+  {id:"suarez", name:"Jorge Suarez, MD", list:"Suarez, Jorge, MD", last:"Suarez", ini:"JS", area:"Doral", img:"2026/02/6-Dr.-Suarez-240x300.jpg", y:1.1, url:"jorge-suarez-md"},
+  {id:"valladares", name:"Michael Valladares, DO", list:"Valladares, Michael, DO", last:"Valladares", ini:"MV", area:"West Kendall", img:"2026/02/7-Dr-Valladares-240x300.jpg", y:4.9, url:"michael-valladares-do"},
+  {id:"vazquez", name:"Raul Vazquez, MD", list:"Vazquez, Raul, MD", last:"Vazquez", ini:"RV", area:"Palmetto Bay · Miami Lakes", img:"2026/06/19-Dr.-Vazquez-Reyes-241x300.png", y:-0.1, url:"raul-vazquez-md"},
+  {id:"veloso", name:"Alexander Veloso, MD", list:"Veloso, Alexander, MD", last:"Alexander Veloso", ini:"AV", area:"Coral Gables", img:"2024/09/3-Dr.-Alexander-Veloso-240x300.jpg", y:0.3, url:"alexander-veloso-md"},
+  {id:"zamora", name:"Ernesto Zamora, MD", list:"Zamora, Ernesto, MD", last:"Zamora", ini:"EZ", area:"Palmetto Bay · Homestead", img:"2026/02/Dr.-Zamora-240x300.jpg", y:0.6, url:"ernesto-zamora-md"}
 ];
 var ANY = { id:"any", any:true };
 function docById(id){ for(var i=0;i<DOCTORS.length;i++){ if(DOCTORS[i].id===id) return DOCTORS[i]; } return null; }
@@ -204,8 +206,8 @@ function gTitle(d){ return T({en:"Gastroenterologist", es:(d.f?"Gastroenterólog
 function av(d, s){
   var inner = d.any
     ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><circle cx="17" cy="9" r="2.6"/><path d="M15.6 14.4c2.3.1 4.2 1.7 4.9 4.6"/></svg>'
-    : esc(d.ini)+'<img src="'+IMG+d.img+'" alt="" width="'+s+'" height="'+s+'" referrerpolicy="no-referrer" onerror="this.remove()">';
-  return '<span class="av" style="width:'+s+'px;height:'+s+'px;font-size:'+Math.round(s*0.32)+'px">'+inner+'</span>';
+    : esc(d.ini)+'<img src="'+IMG+d.img+'" alt="" width="240" height="300" style="top:'+d.y+'%" referrerpolicy="no-referrer" onerror="this.remove()">';
+  return '<span class="av'+(d.any?'':' ph')+'" style="width:'+s+'px;height:'+s+'px;font-size:'+Math.round(s*0.32)+'px">'+inner+'</span>';
 }
 function pickDoc(id){ S.doc = id==="any" ? ANY : (docById(id) || ANY); track("dr-"+S.doc.id); act("start"); }
 
