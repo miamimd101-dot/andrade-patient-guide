@@ -527,6 +527,55 @@ var FAIL = {
             es:"Como recibirá sedación, un adulto debe llevarlo a casa. Cuando tenga a alguien que pueda llevarlo y quedarse con usted, vuelva a esta página. Si no puede conseguirlo, haga una cita en la oficina y hablaremos de opciones."}}
 };
 
+/* Patient-education links for the next-step screen, chosen by the question that routed the patient.
+   Sources: American College of Gastroenterology (gi.org) and MedlinePlus (U.S. National Library of Medicine).
+   They are plain links: nothing about which link is shown or opened is counted or sent anywhere. */
+var GI = "https://gi.org/topics/", GIES = "https://gi.org/patients/recursos-en-espanol/", ML = "https://medlineplus.gov/", MLES = "https://medlineplus.gov/spanish/";
+function ml(en, es, slug){ return { t:{en:en, es:es}, en:ML+slug+".html", es:MLES+slug+".html" }; }
+var CRC = { t:{en:"Colorectal cancer screening", es:"Detección del cáncer colorrectal"}, en:GI+"colorectal-cancer/", es:GIES+"deteccion-del-cancer-colorectal/" };
+var INFO = {
+  age:[CRC], lastcolo:[CRC], stool:[CRC],
+  hered:[
+    { t:{en:"Lynch syndrome", es:"Síndrome de Lynch"}, en:GI+"lynch-syndrome/" },
+    { t:{en:"Familial adenomatous polyposis (FAP)", es:"Poliposis adenomatosa familiar (PAF)"}, en:GI+"familial-adenomatous-polyposis-fap/" }],
+  personal:[
+    { t:{en:"Colon polyps", es:"Pólipos del colon"}, en:GI+"colon-polyps/", es:MLES+"colonicpolyps.html" },
+    { t:{en:"Colorectal cancer", es:"Cáncer del colon y del recto"}, en:GI+"colorectal-cancer/", es:MLES+"colorectalcancer.html" },
+    { t:{en:"Crohn's disease", es:"Enfermedad de Crohn"}, en:GI+"crohns-disease/", es:MLES+"crohnsdisease.html" },
+    { t:{en:"Ulcerative colitis", es:"Colitis ulcerosa"}, en:GI+"ulcerative-colitis/", es:MLES+"ulcerativecolitis.html" }],
+  bleed_rectal:[{ t:{en:"Lower GI bleeding", es:"Hemorragia gastrointestinal"}, en:GI+"lower-gi-bleeding/", es:MLES+"gastrointestinalbleeding.html" }],
+  symptoms:[{ t:{en:"Common digestive symptoms", es:"Enfermedades del sistema digestivo"}, en:GI+"common-gi-symptoms/", es:MLES+"digestivediseases.html" }],
+  bmi:[ml("Body weight and health", "Peso corporal y salud", "bodyweight")],
+  osa:[ml("Sleep apnea", "Apnea del sueño", "sleepapnea")],
+  anes:[ml("Anesthesia", "Anestesia", "anesthesia")],
+  heart:[ml("Heart diseases", "Enfermedades del corazón", "heartdiseases")],
+  bp:[ml("High blood pressure", "Presión arterial alta", "highbloodpressure")],
+  neuro:[ml("Neurologic diseases", "Enfermedades neurológicas", "neurologicdiseases")],
+  lung:[ml("Lung diseases", "Enfermedades de los pulmones", "lungdiseases")],
+  kidliv:[ml("Chronic kidney disease", "Enfermedad renal crónica", "chronickidneydisease"),
+    { t:{en:"Liver cirrhosis", es:"Cirrosis hepática"}, en:GI+"liver-cirrhosis/", es:GIES+"cirrosis-hepatica/" }],
+  dm:[ml("Diabetes", "Diabetes", "diabetes")],
+  glp1:[{ t:{en:"GLP-1 medicines", es:"Medicamentos GLP-1"}, en:ML+"ency/article/007853.htm", es:MLES+"ency/article/007853.htm" }],
+  sglt2:[ml("Diabetes medicines", "Medicinas para la diabetes", "diabetesmedicines")],
+  thin:[ml("Blood thinners", "Anticoagulantes y antiplaquetarios", "bloodthinners")],
+  bleed:[ml("Bleeding disorders", "Problemas de coagulación", "bleedingdisorders")],
+  steroid:[ml("Steroids", "Corticoides", "steroids")],
+  opioid:[ml("Pain relievers", "Analgésicos", "painrelievers")],
+  immune:[ml("Organ transplantation", "Trasplante de órganos", "organtransplantation"), ml("Cancer chemotherapy", "Quimioterapia para el cáncer", "cancerchemotherapy")],
+  labs:[ml("Anemia", "Anemia", "anemia"),
+    { t:{en:"Liver function tests", es:"Pruebas de función hepática"}, en:ML+"lab-tests/liver-function-tests/", es:MLES+"pruebas-de-laboratorio/pruebas-funcionales-hepaticas/" },
+    ml("Kidney tests", "Pruebas para los riñones", "kidneytests")]
+};
+function infoCard(){
+  var L = S.failQ && INFO[S.failQ.id];
+  if(!L) return '';
+  var es = S.lang==="es";
+  return '<div class="card"><div class="eyebrow">'+T({en:"Learn more",es:"Más información"})+'</div>'+
+    L.map(function(x){ return '<a class="btn ghost block" href="'+(es && x.es ? x.es : x.en)+'" target="_blank" rel="noopener noreferrer">'+T(x.t)+(es && !x.es ? ' (en inglés)' : '')+'</a>'; }).join('')+
+    '<p class="muted small">'+T({en:"Patient information from the American College of Gastroenterology and MedlinePlus (U.S. National Library of Medicine). Opens in a new tab.",
+       es:"Información para pacientes del American College of Gastroenterology y de MedlinePlus (Biblioteca Nacional de Medicina de EE. UU.). Se abre en una pestaña nueva."})+'</p></div>';
+}
+
 /* ================= RENDER ================= */
 var root = document.getElementById("screen");
 function focusHeading(){ var h = root.querySelector("h1,h2"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); } window.scrollTo(0,0); }
@@ -643,6 +692,7 @@ function vFail(){
       : '<a class="btn block" href="https://gastromedmiami.com/doctor/'+D().url+'/" target="_blank" rel="noopener">'+T({en:"Make an appointment with ",es:"Hacer una cita con "})+drT()+'</a>')+
     '<a class="btn ghost block" href="tel:'+CONFIG.office.tel+'">'+T({en:"Call the office: ",es:"Llame a la oficina: "})+CONFIG.office.display+'</a>'+
   '</div>')+
+  infoCard()+
   signoff(f.prompt ? {en:"Thank you for answering. Monica will help us see you quickly.", es:"Gracias por responder. Monica nos ayudará a verlo pronto."}
                    : {en:"Thank you for taking the time to answer. We look forward to meeting you.", es:"Gracias por tomarse el tiempo de responder. Esperamos conocerlo pronto."})+
   '<div class="minor small"><span class="muted">'+T({en:"Answered by mistake?",es:"¿Respondió por error?"})+'</span>'+
