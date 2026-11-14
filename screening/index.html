@@ -124,6 +124,7 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:v
 .av img{position:absolute;left:0;top:0;width:100%;height:auto;border:0;border-radius:0;box-shadow:none;background:none}
 .av svg{width:56%;height:56%}
 .chosen{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.prestart{margin:12px 0 4px}
 .doc .muted{display:block}
 .phone{white-space:nowrap}
 @media (max-width:520px){
@@ -136,8 +137,10 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script>
 (function(){
   var qr = /(^|[?&])src=qr(&|$)/.test(location.search);
-  window.goatcounter = { path: function(){ return location.pathname + (qr ? "?src=qr" : ""); } };
-  if(qr && history.replaceState){ try{ history.replaceState(null, "", location.pathname + location.hash); }catch(e){} }
+  var dr = /(?:^|[?&])dr=([a-z]{2,20})(?:&|$)/.exec(location.search);
+  window.GM_DR = dr ? dr[1] : "";   /* a doctor's own link; the page clears it unless it matches a doctor on the list */
+  window.goatcounter = { path: function(){ var q = []; if(qr) q.push("src=qr"); if(window.GM_DR) q.push("dr=" + window.GM_DR); return location.pathname + (q.length ? "?" + q.join("&") : ""); } };
+  if(qr && history.replaceState){ try{ history.replaceState(null, "", location.pathname + (dr ? "?dr=" + dr[1] : "") + location.hash); }catch(e){} }
 })();
 </script>
 <script data-goatcounter="https://drandrade.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -604,15 +607,24 @@ function chosenRow(){
     '<button type="button" class="linkbtn small" data-act="pick">'+T({en:"Change", es:"Cambiar"})+'</button></div>';
 }
 
+/* A doctor's own link (…/screening/?dr=suarez) arrives with that doctor already chosen: the intro shows the doctor and a Start button instead of the list. */
+function preDoc(){ return !!(S.pre && S.doc && !S.doc.any && S.doc.id===S.pre); }
+
 function vIntro(){
+  var pre = preDoc();
   return ''+
   '<div class="eyebrow">'+T({en:"Direct-access screening colonoscopy",es:"Colonoscopia preventiva con acceso directo"})+'</div>'+
   '<h1>'+T({en:"Skip the office visit?",es:"¿Colonoscopia sin consulta previa?"})+'</h1>'+
-  '<p>'+T({en:"Healthy and due for colon cancer screening? Choose your GastroMED gastroenterologist, then answer a few questions to see if you can schedule your colonoscopy directly.",
-     es:"¿Está sano y le toca su colonoscopia preventiva? Escoja su gastroenterólogo de GastroMED y conteste unas preguntas para ver si puede programarla directamente."})+'</p>'+
+  '<p>'+(pre
+    ? T({en:"Healthy and due for colon cancer screening? Answer a few questions to see if you can schedule your colonoscopy with "+drT()+" directly.",
+         es:"¿Está sano y le toca su colonoscopia preventiva? Conteste unas preguntas para ver si puede programarla directamente con "+drT()+"."})
+    : T({en:"Healthy and due for colon cancer screening? Choose your GastroMED gastroenterologist, then answer a few questions to see if you can schedule your colonoscopy directly.",
+         es:"¿Está sano y le toca su colonoscopia preventiva? Escoja su gastroenterólogo de GastroMED y conteste unas preguntas para ver si puede programarla directamente."}))+'</p>'+
   '<p class="muted small">'+T({en:"About 3 minutes · Your answers stay on this phone",es:"Unos 3 minutos · Sus respuestas se quedan en este teléfono"})+'</p>'+
-  '<h2>'+T({en:"Choose your doctor to start",es:"Escoja su médico para comenzar"})+'</h2>'+
-  '<div class="pick">'+docBtn(ANY)+DOCTORS.map(function(d){ return docBtn(d); }).join('')+'</div>'+
+  (pre
+    ? chosenRow()+'<div class="actions prestart"><button type="button" class="btn block" data-act="start">'+T({en:"Start the questions",es:"Comenzar las preguntas"})+'</button></div>'
+    : '<h2>'+T({en:"Choose your doctor to start",es:"Escoja su médico para comenzar"})+'</h2>'+
+      '<div class="pick">'+docBtn(ANY)+DOCTORS.map(function(d){ return docBtn(d); }).join('')+'</div>')+
   '<div class="cols">'+
     '<div class="card yes"><div class="eyebrow">'+T({en:"This is for",es:"Esto es para"})+'</div><ul>'+
       '<li>'+T({en:"Adults 45 to 75 due for routine screening (40 and up with a family history)",es:"Adultos de 45 a 75 años que necesitan su examen de rutina (desde los 40 con antecedentes familiares)"})+'</li>'+
@@ -830,11 +842,11 @@ function bind(){
 }
 
 function act(a){
-  if(a==="start"){ S.view="q"; S.qi=0; track("started"); }
+  if(a==="start"){ S.view="q"; S.qi=0; track("dr-"+D().id); track("started"); }
   else if(a==="back"){ if(S.view==="attest"){ S.view="q"; S.qi=Q.length-1; } else if(S.qi>0){ S.qi--; } else { S.view="intro"; } }
   else if(a==="undo"){ S.view="q"; }
-  else if(a==="pick"){ S.view="intro"; }
-  else if(a==="restart"){ S.view="intro"; S.doc=null; S.qi=0; S.answers={}; S.failKey=null; S.failQ=null; S.attested=false; S.bmi={ft:"",inch:"",lb:"",cm:"",kg:""}; }
+  else if(a==="pick"){ S.view="intro"; S.pre=null; }
+  else if(a==="restart"){ S.view="intro"; S.doc=(S.pre ? docById(S.pre) : null); S.qi=0; S.answers={}; S.failKey=null; S.failQ=null; S.attested=false; S.bmi={ft:"",inch:"",lb:"",cm:"",kg:""}; }
   else if(a==="multi"){ var sel=[]; root.querySelectorAll('.check input:checked').forEach(function(c){ sel.push(c.value); }); answer(sel); return; }
   else if(a==="bmi"){ var v = bmiCalc(); if(!v) return; S.answers.bmiValue = v; answer(Math.round(v*10)/10); return; }
   else if(a==="attest"){ if(!S.attested) return; S.view="pass"; track("qualified"); }
@@ -845,6 +857,8 @@ function act(a){
 var h = (location.hash||"").replace("#","");
 S.lang = h==="es" ? "es" : h==="en" ? "en" : ((navigator.language||"").toLowerCase().indexOf("es")===0 ? "es" : "en");
 document.querySelectorAll("[data-set]").forEach(function(b){ b.addEventListener("click", function(){ S.lang = b.getAttribute("data-set"); render(); }); });
+var linked = docById(window.GM_DR || "");
+if(linked){ S.pre = linked.id; S.doc = linked; } else { window.GM_DR = ""; }
 render();
 })();
 </script>
